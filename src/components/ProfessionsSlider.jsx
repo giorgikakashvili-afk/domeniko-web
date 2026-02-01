@@ -16,7 +16,7 @@ const ProfessionsSlider = () => {
   ];
 
   return (
-    <section className="py-12 md:py-20 bg-[#fff4ec] px-4 md:px-20 overflow-hidden font-noto">
+    <section className="py-12 md:py-20 px-4 md:px-20 overflow-hidden font-noto">
       <div className="max-w-8xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12">
 
         {/* სათაურის ბლოკი */}

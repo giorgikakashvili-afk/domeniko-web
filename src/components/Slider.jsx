@@ -18,7 +18,7 @@ const Slider = () => {
   ];
 
   return (
-    <section className="py-30 bg-[#fdf2e9] overflow-hidden font-noto flex items-center justify-center">
+    <section className="py-30 overflow-hidden font-noto flex items-center justify-center">
       <style>{`
   .slider-wrapper {
     width: 1122px;

@@ -18,7 +18,7 @@ const HeroSection = () => {
 
   return (
     <section
-      className={`relative min-h-[70vh] flex items-center justify-center pt-20 pb-32 overflow-hidden xl:mx-5.5 md:mx-5.5 rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+      className={`relative min-h-[70vh] flex items-center justify-center pt-20 pb-32 overflow-hidden xl:mx-5.5 md:mx-5.5 rounded-b-3xl md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
       style={{
         backgroundImage: `url(${mainBg})`,
         backgroundSize: 'cover',

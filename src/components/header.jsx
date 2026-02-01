@@ -8,7 +8,7 @@ const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="relative w-full font-noto mb-1">
+    <div className="relative w-full font-noto md:mb-1">
       {/* bg-[#09002f] - ლურჯი ფერი მობილურზე
         md:bg-[#fff4ec] - 768px-დან ფერი იცვლება ღიაზე
         xl:justify-around - 1280px-დან გასწორება იცვლება დესკტოპისთვის
