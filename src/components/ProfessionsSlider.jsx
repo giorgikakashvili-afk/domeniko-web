@@ -76,11 +76,11 @@ const ProfessionsSlider = () => {
           </Swiper>
 
           {/* ნავიგაციის ისრები */}
-          <button className="prev-btn absolute -left-4 md:-left-7 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-[#0A0521] text-white rounded-full flex justify-center items-center shadow-xl transition-all duration-300 hover:bg-[#f3713d] [&.swiper-button-disabled]:opacity-0">
+          <button className="prev-btn hidden md:flex absolute -left-4 md:-left-7 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-[#0A0521] text-white rounded-full justify-center items-center shadow-xl transition-all duration-300 hover:bg-[#f3713d] [&.swiper-button-disabled]:opacity-0">
             <ArrowLeft size={24} className="md:w-7 md:h-7" />
           </button>
 
-          <button className="next-btn absolute -right-4 md:-right-7 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-[#0A0521] text-white rounded-full flex justify-center items-center shadow-xl transition-all duration-300 hover:bg-[#f3713d] [&.swiper-button-disabled]:opacity-0">
+          <button className="next-btn hidden md:flex absolute -right-4 md:-right-7 top-1/2 -translate-y-1/2 z-30 w-10 h-10 md:w-14 md:h-14 bg-[#0A0521] text-white rounded-full justify-center items-center shadow-xl transition-all duration-300 hover:bg-[#f3713d] [&.swiper-button-disabled]:opacity-0">
             <ArrowRight size={24} className="md:w-7 md:h-7" />
           </button>
         </div>

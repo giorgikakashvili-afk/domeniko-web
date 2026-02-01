@@ -219,6 +219,25 @@ const Slider = () => {
   .main-swiper .swiper-slide-active .overlay-gradient {
     opacity: 1;
   }
+
+    /* მობილურზე */
+  .slider-wrapper {
+  width: 100%;
+  height: auto !important; /* სიმაღლის შეზღუდვის მოხსნა */
+  max-width: 90%;
+  margin: 0 auto;
+}
+
+  .main-swiper {
+  height: auto !important;
+  overflow: visible !important; /* რომ ტექსტი არ მოიჭრას */
+}
+
+/* დესკტოპზე ვტოვებთ როგორც იყო */
+  @media (min-width: 768px) {
+  .slider-wrapper { width: 1122px; height: 567px; }
+  .main-swiper { height: 100%; }
+}
 `}</style>
 
       <div className="slider-wrapper">
@@ -250,54 +269,68 @@ const Slider = () => {
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div className="relative w-full h-full border-2 border-[#F3713D] rounded-[60px] overflow-hidden shadow-2xl">
-                <img
-                  src={slbg}
-                  alt="Background"
-                  className="bg-image"
-                  data-swiper-parallax="-100"
-                />
-                <div className="overlay-gradient absolute inset-0 z-1"></div>
+              <div className="relative w-full h-full md:rounded-[60px] md:overflow-hidden shadow-2xl flex flex-col md:block">
 
-                <div className="side-title uppercase tracking-widest">{slide.title}</div>
+                {/* სურათის ნაწილი */}
+                <div className="relative h-75 md:h-full w-full shrink-0 overflow-hidden rounded-[40px] md:rounded-none">
+                  <img
+                    src={slbg}
+                    alt="Background"
+                    className="bg-image w-full h-full object-cover"
+                    data-swiper-parallax="-100"
+                  />
+                  <div className="overlay-gradient absolute inset-0 z-1"></div>
+                  <div className="side-title uppercase tracking-widest">{slide.title}</div>
+                </div>
 
-                <div className="content-wrapper absolute inset-0 p-12 md:p-20 flex flex-col justify-center text-white z-10">
-                  {/* კონტენტის გადატანა მარჯვენა ნახევარში */}
-                  <div className="flex justify-end">
-                    <div className="w-full md:w-1/2 flex flex-col items-start text-left">
+                {/* კონტენტის ნაწილი */}
+                <div className="
+                                  content-wrapper 
+                                  relative md:absolute 
+                                  inset-0 
+                                  bg-[#f3713d] md:bg-transparent
+                                  p-8 md:p-20 
+                                  flex flex-col justify-center 
+                                  text-white z-10
+                                  -mt-10 md:mt-0 
+                                  rounded-t-[10px] md:rounded-none
+                              ">
+                  {/* აქ არის მთავარი ცვლილება: md:justify-end აბრუნებს კონტენტს მარჯვნივ */}
+                  <div className="flex justify-center md:justify-end w-full">
+
+                    {/* md:items-start და md:text-left უზრუნველყოფს მარჯვენა ნახევარში ტექსტის მარცხნივ გასწორებას */}
+                    <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
 
                       {/* ნაბიჯი */}
-                      <span className="slide-content-item text-[#f3713d] font-bold mb-4 block text-xl">
+                      <span className="slide-content-item text-white md:text-[#f3713d] font-bold mb-4 block text-xl">
                         {slide.step}
                       </span>
 
                       {/* სათაური */}
-                      <h2 className="slide-content-item text-4xl md:text-6xl font-black mb-8 drop-shadow-lg uppercase [font-variant-caps:all-petite-caps]">
+                      <h2 className="slide-content-item text-3xl md:text-6xl font-black mb-6 md:mb-8 drop-shadow-lg uppercase [font-variant-caps:all-petite-caps]">
                         {slide.title}
                       </h2>
 
                       {/* აღწერა */}
-                      <p className="slide-content-item text-lg text-gray-100 leading-relaxed font-normal drop-shadow-md max-w-lg mb-10">
+                      <p className="slide-content-item text-base md:text-lg text-white/90 leading-relaxed mb-10 max-w-lg">
                         {slide.desc}
                       </p>
 
-                      {/* ღილაკი და მის გვერდით (მარჯვნივ) ისრები */}
-                      <div className="slide-content-item flex items-center gap-6">
-                        {/* მთავარი ღილაკი */}
-                        <button className="profile-button bg-[#fff1e6] text-[#2d1b4d] px-8 py-4 rounded-full flex items-center gap-6 font-bold text-lg hover:bg-white shrink-0">
+                      {/* ღილაკი და ისრები */}
+                      <div className="slide-content-item flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
+                        <button className="profile-button bg-white text-[#f3713d] md:bg-[#fff1e6] md:text-[#2d1b4d] w-full md:w-auto px-8 py-4 rounded-full flex items-center justify-center gap-6 font-bold text-lg shadow-lg">
                           პროფილში შესვლა
-                          <div className="arrow-icon bg-[#f3713d] text-white p-2 rounded-full">
+                          <div className="bg-[#f3713d] text-white p-2 rounded-full">
                             <ArrowRight size={20} />
                           </div>
                         </button>
 
-                        {/* ნავიგაციის ისრები - განლაგებული ღილაკის მარჯვნივ */}
                         <div className="flex gap-3 items-center">
-                          <button className="custom-prev w-14 h-14 bg-white/10 hover:bg-white/25 border border-white/30 rounded-full flex items-center justify-center transition-all group/btn">
-                            <ArrowLeft size={22} className="group-hover/btn:text-[#f3713d] transition-colors" />
+                          <button className="custom-prev w-12 h-12 md:w-14 md:h-14 bg-white/20 md:bg-white/10 border border-white/30 rounded-full flex items-center justify-center">
+                            <ArrowLeft size={20} />
                           </button>
-                          <button className="custom-next w-14 h-14 bg-white/10 hover:bg-white/25 border border-white/30 rounded-full flex items-center justify-center transition-all group/btn">
-                            <ArrowRight size={22} className="group-hover/btn:text-[#f3713d] transition-colors" />
+                          <button className="custom-next w-12 h-12 md:w-14 md:h-14 bg-white/20 md:bg-white/10 border border-white/30 rounded-full flex items-center justify-center">
+                            <ArrowRight size={20} />
                           </button>
                         </div>
                       </div>

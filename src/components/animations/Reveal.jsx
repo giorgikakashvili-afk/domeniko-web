@@ -12,7 +12,7 @@ export const Reveal = ({ children, delay = 0 }) => {
           observer.unobserve(entry.target);
         }
       },
-      { threshold: 0.25 } // სექციის 15% რომ გამოჩნდება, მაშინ დაიწყოს
+      { threshold: 0.2 } // სექციის 20% რომ გამოჩნდება, მაშინ დაიწყოს
     );
 
     if (ref.current) observer.observe(ref.current);

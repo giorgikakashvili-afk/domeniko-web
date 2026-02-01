@@ -45,25 +45,25 @@ const HeroSection = () => {
       </div>
 
       {/* STATS BAR - ამოწევის ანიმაცია */}
-      <div className={`absolute bottom-6 md:bottom-10 left-0 w-full px-7 z-20 transition-all duration-1000 delay-700
+      <div className={`absolute bottom-6 xl:bottom-10 left-0 w-full px-7 z-20 transition-all duration-1000 delay-700
         ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
-        <div className="max-w-8xl mx-auto bg-white/50 backdrop-blur-md py-8 md:py-10 rounded-3xl md:rounded-4xl shadow-2xl border-2 border-white">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-y-8 md:gap-y-0">
+        <div className="max-w-8xl mx-auto bg-white/50 backdrop-blur-md py-8 xl:py-10 rounded-3xl xl:rounded-4xl shadow-2xl border-2 border-white">
+          <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-8 xl:gap-y-0">
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className={`flex items-center justify-start gap-3 md:gap-4 px-4 pl-8 md:pl-0 md:justify-center transition-all duration-700
-                  ${index !== stats.length - 1 ? 'md:border-r border-gray-200/50' : ''}`}
+                className={`flex items-center justify-start gap-3 xl:gap-4 px-4 pl-8 xl:pl-0 xl:justify-center transition-all duration-700
+                  ${index !== stats.length - 1 ? 'xl:border-r border-gray-200/50' : ''}`}
               >
                 <div className="bg-orange-50 p-2 md:p-3 rounded-xl md:rounded-2xl shrink-0">
                   {React.cloneElement(stat.icon, { size: 24, className: "text-[#f3713d] md:w-7 md:h-7" })}
                 </div>
 
                 <div className="flex flex-col items-start text-left">
-                  <div className="text-white text-xl md:text-4xl font-black leading-none">
+                  <div className="text-white text-xl md:text-2xl xl:text-4xl font-black leading-none">
                     {stat.value}
                   </div>
-                  <div className="font-noto [font-variant-caps:all-petite-caps] text-[#0A0521] text-[10px] md:text-xl font-black mt-1 uppercase tracking-wide leading-tight">
+                  <div className="font-noto [font-variant-caps:all-petite-caps] text-[#0A0521] text-[14px] md:text-lg xl:text-xl font-black mt-1 uppercase tracking-wide leading-tight">
                     {stat.label}
                   </div>
                 </div>
