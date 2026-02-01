@@ -47,7 +47,7 @@ const HeroSection = () => {
       <div className={`relative md:absolute bottom-0 md:bottom-6 xl:bottom-10 w-full px-4 md:px-7 z-20 mt-12 md:mt-0 transition-all duration-1000 delay-700
         ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
         
-        <div className="max-w-8xl mx-auto bg-white/20 backdrop-blur-xl py-6 md:py-8 xl:py-10 rounded-[35px] xl:rounded-4xl shadow-2xl border border-white/30 apple-blur">
+        <div className="max-w-8xl mx-auto bg-white/40 backdrop-blur-xl py-6 md:py-8 xl:py-10 rounded-[35px] xl:rounded-4xl shadow-2xl border border-white apple-blur">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-6 md:gap-y-8 xl:gap-y-0">
             {stats.map((stat, index) => (
               <div
@@ -58,14 +58,14 @@ const HeroSection = () => {
                   ${index === stats.length - 1 ? 'xl:border-none' : ''}`}
               >
                 <div className="bg-white/20 p-2 md:p-3 rounded-xl md:rounded-2xl shrink-0">
-                  {React.cloneElement(stat.icon, { size: 22, className: "text-[#f3713d] md:w-7 md:h-7" })}
+                  {React.cloneElement(stat.icon, { size: 22, className: "text-[#ffffff] md:w-7 md:h-7" })}
                 </div>
 
                 <div className="flex flex-col items-start text-left">
                   <div className="text-white text-lg md:text-2xl xl:text-4xl font-black leading-none">
                     {stat.value}
                   </div>
-                  <div className="font-noto [font-variant-caps:all-petite-caps] text-white/90 text-[11px] md:text-lg xl:text-xl font-black mt-1 uppercase tracking-wide leading-tight">
+                  <div className="font-noto [font-variant-caps:all-petite-caps] text-[15px] md:text-lg xl:text-xl font-black mt-1 uppercase tracking-wide leading-tight">
                     {stat.label}
                   </div>
                 </div>

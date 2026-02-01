@@ -27,7 +27,7 @@ const Services = () => {
 
   return (
     <section className="py-16 px-4 md:px-20 max-w-8xl mx-auto font-noto">
-      <h2 className="text-2xl md:text-7xl font-black text-[#0A0521] mb-10 md:mb-16 uppercase [font-variant-caps:all-petite-caps] text-center md:text-left">
+      <h2 className="text-3xl md:text-7xl font-black text-[#0A0521] mb-10 md:mb-16 uppercase [font-variant-caps:all-petite-caps] text-center md:text-left">
         რას გთავაზობს დომენიკო?!
       </h2>
 
@@ -45,12 +45,12 @@ const Services = () => {
             </div>
             
             {/* სათაური - ფერის შეცვლა */}
-            <h3 className="text-sm md:text-2xl font-extrabold text-[#0A0521] leading-tight uppercase [font-variant-caps:all-petite-caps] transition-colors duration-300 group-hover:text-[#f3713d]">
+            <h3 className="text-lg md:text-2xl font-extrabold text-[#0A0521] leading-tight uppercase [font-variant-caps:all-petite-caps] transition-colors duration-300 group-hover:text-[#f3713d]">
               {card.title}
             </h3>
             
             {/* აღწერა - ტექსტის გამუქება */}
-            <p className="text-gray-600 text-[10px] md:text-sm leading-relaxed font-medium transition-colors duration-300 group-hover:text-gray-900">
+            <p className="text-gray-600 text-[13px] md:text-sm leading-relaxed font-medium transition-colors duration-300 group-hover:text-gray-900">
               {card.desc}
             </p>
 
