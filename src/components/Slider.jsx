@@ -220,30 +220,40 @@ const Slider = () => {
     opacity: 1;
   }
 
-    /* მობილურზე */
-  .slider-wrapper {
-  width: 100%;
-  height: auto !important; /* სიმაღლის შეზღუდვის მოხსნა */
-  max-width: 90%;
-  margin: 0 auto;
-}
+  @media (max-width: 767px) {
+    .slider-wrapper {
+      width: 100%;
+      height: auto !important;
+      max-width: 90%;
+    }
 
-  .main-swiper {
-  height: auto !important;
-  overflow: visible !important; /* რომ ტექსტი არ მოიჭრას */
-}
+    .main-swiper {
+      height: auto !important;
+    }
 
-/* დესკტოპზე ვტოვებთ როგორც იყო */
+    .main-swiper .swiper-slide {
+      height: auto !important; /* მობილურზე სიმაღლე შიგთავსზეა დამოკიდებული */
+      opacity: 1 !important; /* მობილურზე ხშირად ჯობია opacity პრობლემების თავიდან ასაცილებლად */
+    }
+
+    .image-container {
+       height: 300px !important; /* სურათის სიმაღლე მობილურზე */
+    }
+  }
+
+  /* --- დესკტოპის ფიქსირებული ზომები --- */
   @media (min-width: 768px) {
-  .slider-wrapper { width: 1122px; height: 567px; }
-  .main-swiper { height: 100%; }
-}
+    .slider-wrapper { width: 1122px; height: 567px; }
+    .main-swiper { height: 100%; }
+    .main-swiper .swiper-slide { height: 100%; }
+  }
 `}</style>
 
       <div className="slider-wrapper">
         <Swiper
           modules={[Navigation, EffectCreative, Parallax]}
           effect={'creative'}
+          autoHeight={true}
           centeredSlides={false}
           slidesPerView={1}
           resistanceRatio={0}
@@ -269,7 +279,7 @@ const Slider = () => {
         >
           {slides.map((slide, index) => (
             <SwiperSlide key={index}>
-              <div className="relative w-full h-full md:rounded-[60px] md:overflow-hidden shadow-2xl flex flex-col md:block">
+              <div className="relative w-full md:h-full md:rounded-[60px] md:overflow-hidden shadow-2xl flex flex-col md:block">
 
                 {/* სურათის ნაწილი */}
                 <div className="relative h-75 md:h-full w-full shrink-0 overflow-hidden rounded-[40px] md:rounded-none">
@@ -294,6 +304,7 @@ const Slider = () => {
                                   text-white z-10
                                   -mt-10 md:mt-0 
                                   rounded-t-[10px] md:rounded-none
+                                  md:h-full
                               ">
                   {/* აქ არის მთავარი ცვლილება: md:justify-end აბრუნებს კონტენტს მარჯვნივ */}
                   <div className="flex justify-center md:justify-end w-full">
