@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import mainBg from '../assets/main_img/main-bg.png';
-import mainBgMobile from '../assets/main_img/main-bgMobile.png'; 
+import mainBgMobile from '../assets/main_img/main-bgMobile.png';
 import { ArrowUpRight, Users, Briefcase, Presentation, UserStar } from 'lucide-react';
 
 const HeroSection = () => {
@@ -61,8 +61,9 @@ const HeroSection = () => {
       </div>
 
       {/* STATS BAR - ოპტიმიზირებული მობილურისთვის */}
+      {/* STATS BAR - ოპტიმიზირებული მობილურისთვის */}
       <div className={`relative md:absolute bottom-0 md:bottom-6 xl:bottom-10 w-full px-4 md:px-7 z-20 mt-12 md:mt-0 transition-all duration-1000 delay-700
-        ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
+  ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
 
         <div className="max-w-8xl mx-auto bg-white/40 backdrop-blur-xl py-6 md:py-8 xl:py-10 rounded-[35px] xl:rounded-4xl shadow-2xl border border-white apple-blur">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-6 gap-x-2 md:gap-y-8 xl:gap-0">
@@ -70,21 +71,21 @@ const HeroSection = () => {
               <div
                 key={index}
                 className={`flex items-center justify-start gap-2 md:gap-3 xl:gap-4 px-3 md:px-6 xl:justify-center transition-all duration-700
-                  ${index % 2 === 0 ? 'border-r border-white/20' : ''} 
-                  ${index > 1 ? 'xl:border-l xl:border-white/20' : ''}
-                  xl:border-r last:border-none`}
+            ${index % 2 === 0 ? 'border-r border-white/20' : ''} 
+            ${index > 1 ? 'xl:border-l xl:border-white/20' : ''}
+            xl:border-r last:border-none`}
               >
-                {/* პატარა აიქონი მობილურისთვის */}
                 <div className="bg-white/20 p-1.5 md:p-3 rounded-lg md:rounded-2xl shrink-0">
                   {React.cloneElement(stat.icon, { className: "w-5 h-5 md:w-7 md:h-7 text-white" })}
                 </div>
 
-                <div className="flex flex-col items-start text-left min-w-0">
+                <div className="flex flex-col items-start text-left min-w-0 flex-1">
                   <div className="text-white text-lg md:text-2xl xl:text-4xl font-black leading-none">
                     {stat.value}
                   </div>
-                  {/* whitespace-nowrap უშველის ტექსტის გაწყვეტას */}
-                  <div className="font-noto [font-variant-caps:all-petite-caps] text-[13px] md:text-lg xl:text-xl font-black mt-0.5 uppercase tracking-tight leading-tight whitespace-nowrap overflow-hidden text-ellipsis">
+
+                  {/* აქ შეიცვალა whitespace-nowrap -> whitespace-normal */}
+                  <div className="font-noto [font-variant-caps:all-petite-caps] text-[13px] md:text-lg xl:text-xl font-black mt-0.5 uppercase tracking-tight leading-[1.1] whitespace-normal">
                     {stat.label}
                   </div>
                 </div>
