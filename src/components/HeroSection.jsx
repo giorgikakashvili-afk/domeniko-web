@@ -18,7 +18,7 @@ const HeroSection = () => {
 
   return (
     <section
-      className={`relative min-h-[70dvh] md:min-h-[70vh] flex flex-col items-center justify-between md:justify-center pt-24 pb-12 md:py-32 overflow-hidden xl:mx-5.5 md:mx-5.5 rounded-b-[40px] md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
+      className={`relative min-h-[70dvh] md:min-h-[80dvh]   xl:min-h-[75vh] flex flex-col items-center justify-between md:justify-center pt-24 pb-12 md:py-32 overflow-hidden xl:mx-5.5 md:mx-5.5 rounded-b-[40px] md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'}`}
       style={{
         backgroundImage: `url(${mainBg})`,
         backgroundSize: 'cover',

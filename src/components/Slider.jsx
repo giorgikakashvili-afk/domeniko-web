@@ -9,11 +9,12 @@ import 'swiper/css/effect-creative';
 import 'swiper/css/parallax';
 
 import slbg from '../assets/main_img/slbg.jpg';
+import slbgMobile from '../assets/main_img/slbgMobile.png';
 
 const Slider = () => {
   const slides = [
     { step: "ნაბიჯი 1", title: "გაიცანი საკუთარი თავი", desc: "აღმოაჩინე შენი ძლიერი მხარეები და ინტერესები სპეციალური ტესტების მეშვეობით." },
-    { step: "ნაბიჯი 2", title: "დაიწყე ტესტირება", desc: "ჰოლანდიის ტესტის რეგისტრაციის პროცესზე ინფორმაცია: რეგისტრაციისთვის, გთხოვთ შეავსოთ ფორმა ჩვენს ვებსაიტზე." },
+    { step: "ნაბიჯი 2", title: "დაიწყე ტესტირება", desc: "ჰოლანდის ტესტის რეგისტრაციის პროცესზე ინფორმაცია: რეგისტრაციისთვის, გთხოვთ შეავსოთ ფორმა ჩვენს ვებსაიტზე. საჭირო იქნება თქვენი პირადი მონაცემები, როგორიცაა სახელი, გვარი და ელექტრონული ფოსტის მისამართი. რეგისტრაციის დასრულების შემდეგ, მიიღებთ დადასტურების წერილს." },
     { step: "ნაბიჯი 3", title: "გაიცანი მომავალი პროფესია", desc: "მიიღე დეტალური ინფორმაცია შენზე მორგებული პროფესიების შესახებ." },
   ];
 
@@ -283,10 +284,18 @@ const Slider = () => {
 
                 {/* სურათის ნაწილი */}
                 <div className="relative h-75 md:h-full w-full shrink-0 overflow-hidden rounded-[40px] md:rounded-none">
+                  {/* ეს გამოჩნდება მხოლოდ მობილურზე (Desktop-ზე დაიმალება) */}
+                  <img
+                    src={slbgMobile}
+                    alt="Mobile Background"
+                    className="bg-image w-full h-full object-cover md:hidden"
+                    data-swiper-parallax="-100"
+                  />
+                  {/* ეს გამოჩნდება მხოლოდ Desktop-ზე (მობილურზე დაიმალება) */}
                   <img
                     src={slbg}
-                    alt="Background"
-                    className="bg-image w-full h-full object-cover"
+                    alt="Desktop Background"
+                    className="bg-image w-full h-full object-cover hidden md:block"
                     data-swiper-parallax="-100"
                   />
                   <div className="overlay-gradient absolute inset-0 z-1"></div>
@@ -294,49 +303,48 @@ const Slider = () => {
                 </div>
 
                 {/* კონტენტის ნაწილი */}
-                <div className="
-                                  content-wrapper 
-                                  relative md:absolute 
-                                  inset-0 
-                                  bg-[#f3713d] md:bg-transparent
-                                  p-8 md:p-20 
-                                  flex flex-col justify-center 
-                                  text-white z-10
-                                  -mt-10 md:mt-0 
-                                  rounded-t-[10px] md:rounded-none
-                                  md:h-full
-                              ">
-                  {/* აქ არის მთავარი ცვლილება: md:justify-end აბრუნებს კონტენტს მარჯვნივ */}
+                <div className="content-wrapper relative md:absolute inset-0 bg-[#f3713d] md:bg-transparent p-8 md:p-20 flex flex-col justify-center text-white z-10 -mt-10 md:mt-0 rounded-t-[10px] md:rounded-none md:h-full">
                   <div className="flex justify-center md:justify-end w-full">
+                    <div className="w-full md:w-1/2 flex flex-col items-start text-left ">
 
-                    {/* md:items-start და md:text-left უზრუნველყოფს მარჯვენა ნახევარში ტექსტის მარცხნივ გასწორებას */}
-                    <div className="w-full md:w-1/2 flex flex-col items-center md:items-start text-center md:text-left">
+                      {/* ნაბიჯი და ისრები - მობილურზე ერთ ხაზზე */}
+                      <div className="flex items-center justify-between md:justify-start w-full gap-4 mb-4">
+                        {/* მარცხენა ისარი (მხოლოდ მობილურზე ჩანს) */}
+                        <button className="custom-prev md:hidden w-10 h-10 bg-white/20 border border-white/30 rounded-full flex items-center justify-center shrink-0 active:scale-90">
+                          <ArrowLeft size={18} />
+                        </button>
 
-                      {/* ნაბიჯი */}
-                      <span className="slide-content-item text-white md:text-[#f3713d] font-bold mb-4 block text-xl">
-                        {slide.step}
-                      </span>
+                        <span className="slide-content-item text-white md:text-[#f3713d] font-bold block text-xl mb-0">
+                          {slide.step}
+                        </span>
+
+                        {/* მარჯვენა ისარი (მხოლოდ მობილურზე ჩანს) */}
+                        <button className="custom-next md:hidden w-10 h-10 bg-white/20 border border-white/30 rounded-full flex items-center justify-center shrink-0 active:scale-90">
+                          <ArrowRight size={18} />
+                        </button>
+                      </div>
 
                       {/* სათაური */}
-                      <h2 className="slide-content-item text-3xl md:text-6xl font-black mb-6 md:mb-8 drop-shadow-lg uppercase [font-variant-caps:all-petite-caps]">
+                      <h2 className="slide-content-item text-3xl md:text-6xl  text-black md:text-white font-black mb-6 md:mb-8 drop-shadow-lg uppercase [font-variant-caps:all-petite-caps]">
                         {slide.title}
                       </h2>
 
                       {/* აღწერა */}
-                      <p className="slide-content-item text-base md:text-lg text-white/90 leading-relaxed mb-10 max-w-lg">
+                      <p className="slide-content-item text-base md:text-lg text-black md:text-white leading-relaxed mb-10 max-w-lg">
                         {slide.desc}
                       </p>
 
-                      {/* ღილაკი და ისრები */}
+                      {/* ღილაკი და დესკტოპის ისრები */}
                       <div className="slide-content-item flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
-                        <button className="profile-button bg-white text-[#f3713d] md:bg-[#fff1e6] md:text-[#2d1b4d] w-full md:w-auto px-8 py-4 rounded-full flex items-center justify-center gap-6 font-bold text-lg shadow-lg">
+                        <button className="profile-button bg-white text-[#f3713d] md:bg-[#fff1e6] md:text-[#2d1b4d] xl:w-full md:w-auto py-2 px-5 md:px-8 md:py-4 rounded-full flex items-center justify-center gap-6 font-bold text-base md:text-lg shadow-lg">
                           პროფილში შესვლა
                           <div className="bg-[#f3713d] text-white p-2 rounded-full">
                             <ArrowRight size={20} />
                           </div>
                         </button>
 
-                        <div className="flex gap-3 items-center">
+                        {/* ისრები დესკტოპისთვის (მობილურზე დამალულია, რადგან ზემოთ ავიტანეთ) */}
+                        <div className="hidden md:flex gap-3 items-center">
                           <button className="custom-prev w-12 h-12 md:w-14 md:h-14 bg-white/20 md:bg-white/10 border border-white/30 rounded-full flex items-center justify-center">
                             <ArrowLeft size={20} />
                           </button>

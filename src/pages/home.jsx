@@ -2,6 +2,7 @@ import React from 'react';
 import HeroSection from '../components/HeroSection'; // აქაც HeroSection
 import Services from '../components/Services';
 import ProfessionsSlider from '../components/ProfessionsSlider';
+import MeetSection from '../components/MeetSection';
 import Slider from '../components/Slider';
 import { Reveal } from '../components/animations/Reveal';
 
@@ -33,6 +34,11 @@ const Home = () => {
         <Reveal>
           <ProfessionsSlider />
         </Reveal>
+        
+        <Reveal>
+          <MeetSection />
+        </Reveal>  
+
         <Reveal>
           <Slider />
         </Reveal>
