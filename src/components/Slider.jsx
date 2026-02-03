@@ -45,7 +45,7 @@ const Slider = () => {
     min-width: 100% !important;
     max-width: 100% !important;
     height: 100%;
-    border-radius: 60px;
+    border-radius: 30px;
     overflow: hidden;
     transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
     opacity: 0;

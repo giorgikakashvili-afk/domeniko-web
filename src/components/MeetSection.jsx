@@ -79,13 +79,13 @@ const MeetSection = () => {
                                 </div>
 
                                 <div className="flex flex-col">
-                                    <h3 className="font-black text-xl mb-1 text-[#2d1b4d] uppercase leading-tight h-14 line-clamp-2">
+                                    <h3 className="font-black text-lg mb-1 text-[#2d1b4d] uppercase leading-tight h-10 line-clamp-1">
                                         {mentor.name}
                                     </h3>
-                                    <p className="text-[#f3713d] font-bold text-sm mb-3 leading-tight h-10 line-clamp-2">
+                                    <p className="text-[#f3713d] font-bold text-sm mb-3 leading-tight h-8 line-clamp-2">
                                         {mentor.title}
                                     </p>
-                                    <p className="text-gray-600 text-sm leading-relaxed line-clamp-3">
+                                    <p className="text-gray-600 text-[12px] leading-relaxed line-clamp-3">
                                         {mentor.desc}
                                     </p>
                                 </div>

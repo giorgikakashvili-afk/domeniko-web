@@ -61,7 +61,6 @@ const HeroSection = () => {
       </div>
 
       {/* STATS BAR - ოპტიმიზირებული მობილურისთვის */}
-      {/* STATS BAR - ოპტიმიზირებული მობილურისთვის */}
       <div className={`relative md:absolute bottom-0 md:bottom-6 xl:bottom-10 w-full px-4 md:px-7 z-20 mt-12 md:mt-0 transition-all duration-1000 delay-700
   ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
 
@@ -71,9 +70,14 @@ const HeroSection = () => {
               <div
                 key={index}
                 className={`flex items-center justify-start gap-2 md:gap-3 xl:gap-4 px-3 md:px-6 xl:justify-center transition-all duration-700
-            ${index % 2 === 0 ? 'border-r border-white/20' : ''} 
-            ${index > 1 ? 'xl:border-l xl:border-white/20' : ''}
-            xl:border-r last:border-none`}
+      /* მობილურზე (2 სვეტი): ხაზი მხოლოდ მარცხენა ელემენტებს (0 და 2) */
+      ${index % 2 === 0 ? 'border-r border-white/20' : 'border-transparent'} 
+      
+      /* დესკტოპზე (4 სვეტი): ხაზი ყველას, ბოლოს გარდა */
+      xl:border-r xl:border-white/20 xl:last:border-none
+      
+      /* ვაუქმებთ ზედმეტ მარცხენა ხაზებს */
+      xl:border-l-0`}
               >
                 <div className="bg-white/20 p-1.5 md:p-3 rounded-lg md:rounded-2xl shrink-0">
                   {React.cloneElement(stat.icon, { className: "w-5 h-5 md:w-7 md:h-7 text-white" })}
