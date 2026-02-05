@@ -1,2 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Georgian:wght@100..900&display=swap');
 @import "tailwindcss";
 
+@theme {
+  /* v4-ში ცვლადს ვანიჭებთ სახელს, რომელსაც მერე font-noto კლასით გამოვიყენებთ */
+  --font-noto: "Noto Sans Georgian", sans-serif;
+}
+
+/* ეს ნაწილი აიძულებს ბრაუზერს, რომ თუ კონკრეტული კლასი არ გიწერია, 
+   მაინც Noto Sans გამოიყენოს ქართულისთვის */
+@layer base {
+  html, body {
+    font-family: "Noto Sans Georgian", sans-serif;
+  }
+}

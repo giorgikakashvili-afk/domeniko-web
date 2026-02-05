@@ -27,7 +27,7 @@ const Services = () => {
 
   return (
     <section className="py-16 px-4 md:px-20 max-w-8xl mx-auto font-noto">
-      <h2 className="text-3xl md:text-7xl font-black text-[#0A0521] mb-10 md:mb-16 uppercase [font-variant-caps:all-petite-caps] text-center md:text-left">
+      <h2 className="text-3xl md:text-7xl font-noto font-black text-[#0A0521] mb-10 md:mb-16 uppercase [font-variant-caps:all-petite-caps] text-center md:text-left">
         რას გთავაზობს დომენიკო?!
       </h2>
 
@@ -37,24 +37,24 @@ const Services = () => {
             key={index} 
             className="group relative bg-white/50 backdrop-blur-sm p-4 md:p-8 rounded-3xl md:rounded-[2.5rem] border-2 border-white flex flex-col items-start gap-3 min-h-55 md:min-h-65 
                        transition-all duration-500 ease-out cursor-pointer
-                       hover:bg-white hover:-translate-y-3 hover:shadow-2xl hover:shadow-orange-200/50 hover:border-[#f3713d]/30"
+                       hover:bg-white hover:-translate-y-3 hover:shadow-2xl hover:shadow-[#f3713d]/10 hover:border-[#f3713d]/30"
           >
-            {/* აიქონის ანიმაცია - იზრდება და ოდნავ იხრება */}
+            {/* აიქონის ანიმაცია */}
             <div className="shrink-0 transition-transform duration-500 ease-out group-hover:scale-110 group-hover:-rotate-6">
               {card.icon}
             </div>
             
-            {/* სათაური - ფერის შეცვლა */}
-            <h3 className="text-lg md:text-2xl font-extrabold text-[#0A0521] leading-tight uppercase [font-variant-caps:all-petite-caps] transition-colors duration-300 group-hover:text-[#f3713d]">
+            {/* სათაური */}
+            <h3 className="font-noto text-lg md:text-2xl font-black text-[#0A0521] leading-tight uppercase [font-variant-caps:all-petite-caps] transition-colors duration-300 group-hover:text-[#f3713d]">
               {card.title}
             </h3>
             
-            {/* აღწერა - ტექსტის გამუქება */}
-            <p className="text-gray-600 text-[13px] md:text-sm leading-relaxed font-medium transition-colors duration-300 group-hover:text-gray-900">
+            {/* აღწერა - გავაუმჯობესეთ ტექსტის ფერი და ფონტი */}
+            <p className="font-noto text-[#4a4a4a] group-hover:text-[#1a1a1a] text-[13px] md:text-base leading-relaxed font-medium transition-colors duration-300">
               {card.desc}
             </p>
 
-            {/* დამატებითი დეკორატიული ელემენტი - პატარა ნარინჯისფერი ხაზი ქვემოთ, რომელიც ჰოვერზე გრძელდება */}
+            {/* დეკორატიული ხაზი */}
             <div className="absolute bottom-6 left-8 w-0 h-1 bg-[#f3713d] rounded-full transition-all duration-500 group-hover:w-12 opacity-0 group-hover:opacity-100 hidden md:block" />
           </div>
         ))}

@@ -4,7 +4,9 @@ import Services from '../components/Services';
 import ProfessionsSlider from '../components/ProfessionsSlider';
 import MeetSection from '../components/MeetSection';
 import Slider from '../components/Slider';
+import NewsSlider from '../components/NewsSlider';
 import { Reveal } from '../components/animations/Reveal';
+
 
 
 const Home = () => {
@@ -41,6 +43,10 @@ const Home = () => {
 
         <Reveal>
           <Slider />
+        </Reveal>
+
+        <Reveal>
+          <NewsSlider/>
         </Reveal>
       </div>
     </div>

@@ -19,14 +19,12 @@ const HeroSection = () => {
 
   return (
     <section
-      className={`relative min-h-[70dvh] md:min-h-[80dvh] xl:min-h-[75vh] flex flex-col items-center justify-between md:justify-center pt-24 pb-12 md:py-32 overflow-hidden md:mx-5.5 xl:mx-5.5 rounded-b-[40px] md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'} bg-cover bg-center`}
+      className={`relative min-h-[70dvh] md:min-h-[80dvh] xl:min-h-[75vh] flex flex-col items-center justify-between md:justify-center pt-24 pb-12 md:py-32 overflow-hidden md:mx-5.5 xl:mx-5.5 rounded-b-[40px] md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'} bg-cover bg-center font-noto`}
       style={{
-        // ვიყენებთ CSS ცვლადებს დინამიური ფონისთვის
         '--bg-desktop': `url(${mainBg})`,
         '--bg-mobile': `url(${mainBgMobile})`
       }}
     >
-      {/* ლოკალური სტილები ფონისთვის და ბლერისთვის */}
       <style jsx>{`
         section {
           background-image: var(--bg-mobile);
@@ -52,7 +50,7 @@ const HeroSection = () => {
         </h1>
 
         <button
-          className={`mt-10 md:mt-18 bg-[#f3713d] hover:bg-[#d95f2d] text-white md:text-[20px] pr-3 py-2 pl-8 rounded-full flex items-center gap-5 mx-auto font-medium shadow-sm shadow-white border transition-all duration-700 delay-500 hover:delay-0 ${loaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`} >
+          className={`mt-10 md:mt-18 bg-[#f3713d] hover:bg-[#d95f2d] text-white md:text-[20px] pr-3 py-2 pl-8 rounded-full flex items-center gap-5 mx-auto font-bold shadow-sm shadow-white border transition-all duration-700 delay-500 hover:delay-0 font-noto ${loaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`} >
           შემოუერთდი დომენიკოს
           <div className='w-11 h-11 rounded-full bg-white text-black flex justify-center items-center transition-transform duration-300'>
             <ArrowUpRight size={25} />
@@ -60,9 +58,9 @@ const HeroSection = () => {
         </button>
       </div>
 
-      {/* STATS BAR - ოპტიმიზირებული მობილურისთვის */}
+      {/* STATS BAR */}
       <div className={`relative md:absolute bottom-0 md:bottom-6 xl:bottom-10 w-full px-4 md:px-7 z-20 mt-12 md:mt-0 transition-all duration-1000 delay-700
-  ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
+        ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
 
         <div className="max-w-8xl mx-auto bg-white/40 backdrop-blur-xl py-6 md:py-8 xl:py-10 rounded-[35px] xl:rounded-4xl shadow-2xl border border-white apple-blur">
           <div className="grid grid-cols-2 xl:grid-cols-4 gap-y-6 gap-x-2 md:gap-y-8 xl:gap-0">
@@ -70,26 +68,21 @@ const HeroSection = () => {
               <div
                 key={index}
                 className={`flex items-center justify-start gap-2 md:gap-3 xl:gap-4 px-3 md:px-6 xl:justify-center transition-all duration-700
-      /* მობილურზე (2 სვეტი): ხაზი მხოლოდ მარცხენა ელემენტებს (0 და 2) */
-      ${index % 2 === 0 ? 'border-r border-white/20' : 'border-transparent'} 
-      
-      /* დესკტოპზე (4 სვეტი): ხაზი ყველას, ბოლოს გარდა */
-      xl:border-r xl:border-white/20 xl:last:border-none
-      
-      /* ვაუქმებთ ზედმეტ მარცხენა ხაზებს */
-      xl:border-l-0`}
+                  ${index % 2 === 0 ? 'border-r border-white/20' : 'border-transparent'} 
+                  xl:border-r xl:border-white/20 xl:last:border-none
+                  xl:border-l-0`}
               >
                 <div className="bg-white/20 p-1.5 md:p-3 rounded-lg md:rounded-2xl shrink-0">
                   {React.cloneElement(stat.icon, { className: "w-5 h-5 md:w-7 md:h-7 text-white" })}
                 </div>
 
                 <div className="flex flex-col items-start text-left min-w-0 flex-1">
-                  <div className="text-white text-lg md:text-2xl xl:text-4xl font-black leading-none">
+                  <div className="text-white text-lg md:text-2xl xl:text-4xl font-black leading-none font-noto">
                     {stat.value}
                   </div>
 
-                  {/* აქ შეიცვალა whitespace-nowrap -> whitespace-normal */}
-                  <div className="font-noto [font-variant-caps:all-petite-caps] text-[13px] md:text-lg xl:text-xl font-black mt-0.5 uppercase tracking-tight leading-[1.1] whitespace-normal">
+                  {/* დავამატე text-white და font-notო */}
+                  <div className=" font-noto [font-variant-caps:all-petite-caps] text-[13px] md:text-lg xl:text-xl font-black mt-0.5 uppercase tracking-tight leading-[1.1] whitespace-normal">
                     {stat.label}
                   </div>
                 </div>
