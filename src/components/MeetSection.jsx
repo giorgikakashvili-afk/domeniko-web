@@ -1,25 +1,40 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
-import { ArrowRight, ArrowLeft, ArrowUpRight } from 'lucide-react';
-
-import profesional from '../assets/main_img/profesional.jpg';
+import { ArrowRight, ArrowLeft, ArrowUpRight, Loader2 } from 'lucide-react';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 
 const MeetSection = () => {
+    const [mentors, setMentors] = useState([]);
+    const [loading, setLoading] = useState(true);
     const [isEnd, setIsEnd] = useState(false);
 
-    const mentors = [
-        { name: "პავლია ლომიაშვილი", title: "სამართლის მეცნიერებათა დოქტორი", desc: "პავლია ლომიაშვილის რეგალია, სად მუშაობს ან რამე მსგავსი.", img: profesional },
-        { name: "ნინო ბერიშვილი", title: "სამართლის მაგისტრი", desc: "ნინო ბერიშვილის კვლევითი პროექტები და თანამშრომლობები", img: profesional },
-        { name: "თამარ მაღლაკელიძე", title: "იურისპრუდენციის დოქტორი", desc: "თამარ მაღლაკელიძის ინოვაციური გამოგონებები და აღიარებები", img: profesional },
-        { name: "ლაშა ყიფიანი", title: "სამართლის მეცნიერების კანდიდატი", desc: "ლაშა ყიფიანის გარემოს დაცვის ინიციატივები და აქტივობები", img: profesional },
-        { name: "გიორგი მახარაძე", title: "ბიზნესის ადმინისტრირება", desc: "წარმატებული სტარტაპების კონსულტანტი და მენტორი", img: profesional },
-        { name: "ანა კაპანაძე", title: "ფსიქოლოგიის დოქტორი", desc: "განათლების ფსიქოლოგიისა და განვითარების ექსპერტი", img: profesional },
-        { name: "დავით ერისთავი", title: "ეკონომიკის პროფესორი", desc: "საერთაშორისო ეკონომიკური ურთიერთობების სპეციალისტი", img: profesional },
-    ];
+    useEffect(() => {
+        const fetchSpeakers = async () => {
+            try {
+                // მოთხოვნა სპიკერების API-ზე
+                const response = await fetch('https://rost.ge/api/speakers');
+                const result = await response.json();
+                setMentors(result.data); // ვინახავთ სპიკერებს
+            } catch (error) {
+                console.error("Error fetching speakers:", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchSpeakers();
+    }, []);
+
+    if (loading) {
+        return (
+            <div className="py-20 flex justify-center items-center">
+                <Loader2 className="animate-spin text-[#f3713d]" size={40} />
+            </div>
+        );
+    }
 
     return (
         <section className="py-16 px-4 md:px-10 xl:px-20 font-noto overflow-hidden">
@@ -40,7 +55,7 @@ const MeetSection = () => {
                 <h2 className="text-3xl md:text-5xl font-noto font-black text-[#2d1b4d] uppercase [font-variant-caps:all-petite-caps] leading-tight text-center md:text-left tracking-tight">
                     ვის შეხვდები <br className="md:hidden" /> დომენიკოსთან ერთად
                 </h2>
-                <button className="hidden md:flex items-center gap-2 bg-[#f3713d] text-white px-8 py-4 rounded-full font-black font-noto transition-all hover:scale-105 shadow-lg active:scale-95 uppercase [font-variant-caps:all-petite-caps]">
+                <button className="hidden md:flex items-center gap-2 bg-[#f3713d] text-white text-xl px-8 py-4 rounded-full font-black font-noto transition-all hover:scale-105 shadow-lg active:scale-95 uppercase [font-variant-caps:all-petite-caps]">
                     ყველას ნახვა
                     <ArrowUpRight size={20} />
                 </button>
@@ -67,23 +82,28 @@ const MeetSection = () => {
                     }}
                     className={`overflow-visible transition-all duration-500 ${!isEnd ? 'is-fading' : ''}`}
                 >
-                    {mentors.map((mentor, index) => (
-                        <SwiperSlide key={index} className="h-auto">
-                            <div className="bg-[#ffe4d1] rounded-[20px] p-5 flex flex-col h-full min-h-120 transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-[#f3713d]/30 group/card">
+                    {mentors.map((mentor) => (
+                        <SwiperSlide key={mentor.id} className="h-auto">
+                            <div className="bg-[#ffe4d1] rounded-[20px] p-5 flex flex-col h-full min-h-125 transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-[#f3713d]/30 group/card">
 
-                                <div className="rounded-xl overflow-hidden mb-5 h-64 shrink-0 shadow-inner">
-                                    <img src={mentor.img} className="w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110" alt={mentor.name} />
+                                <div className="rounded-xl overflow-hidden mb-5 shrink-0 shadow-inner bg-white/20 relative aspect-square">
+                                    <img
+                                        src={mentor.image_url}
+                                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
+                                        alt={mentor.name}
+                                    />
                                 </div>
 
                                 <div className="flex flex-col flex-1">
                                     <h3 className="font-noto font-black text-xl mb-1 text-[#2d1b4d] uppercase [font-variant-caps:all-petite-caps] leading-tight min-h-[2.8rem] line-clamp-2">
                                         {mentor.name}
                                     </h3>
-                                    <p className="font-noto text-[#f3713d] font-bold text-sm mb-3 leading-tight min-h-10 line-clamp-2">
-                                        {mentor.title}
+                                    {/* გამოგვაქვს პროფესიები API-დან */}
+                                    <p className="font-noto text-[#f3713d] font-bold text-sm mb-3 leading-tight min-h-10 line-clamp-2 uppercase">
+                                        {mentor.professions?.map(p => p.name).join(', ') || "პროფესიონალი მენტორი"}
                                     </p>
                                     <p className="font-noto text-[#4a4a4a] text-[13px] leading-relaxed line-clamp-4">
-                                        {mentor.desc}
+                                        {mentor.text}
                                     </p>
                                 </div>
 
