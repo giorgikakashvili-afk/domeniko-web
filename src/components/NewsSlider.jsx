@@ -28,6 +28,7 @@ const NewsSlider = () => {
 
   return (
     <section className="bg-[#09002f] py-16 px-4 md:px-10 font-noto rounded-[40px] mx-4 md:mx-10 my-10 overflow-hidden">
+      {/* ზედა ზოლი ღილაკით */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
         <h2 className="text-white text-3xl md:text-5xl font-black uppercase [font-variant-caps:all-petite-caps] tracking-tight font-noto">
           ბოლო სიახლეები
@@ -42,6 +43,14 @@ const NewsSlider = () => {
               <ArrowRight size={24} />
             </button>
           </div>
+
+          {/* დავიწყებული ღილაკი დავაბრუნეთ */}
+          <button className="hidden md:flex bg-[#ffe4d1] text-[#0f0a21] px-6 py-3 rounded-full font-bold items-center gap-3 hover:bg-white transition-all whitespace-nowrap uppercase [font-variant-caps:all-petite-caps]">
+            ყველა სიახლე
+            <div className="bg-[#f3713d] text-white p-1 rounded-full">
+              <ArrowUpRight size={18} />
+            </div>
+          </button>
         </div>
       </div>
 
@@ -64,9 +73,9 @@ const NewsSlider = () => {
           <SwiperSlide key={item.id} className="h-auto">
             <div className="bg-[#ffe4d1] rounded-[30px] p-4 flex flex-col md:flex-row gap-5 h-full transition-all duration-300 hover:-translate-y-2 border-2 border-transparent hover:border-[#f3713d]/30">
               
-              {/* ფოტოს ნაწილი - ფიქსირებული ჩარჩო */}
-              <div className="w-full md:w-48 lg:w-52 shrink-0 overflow-hidden rounded-[20px] bg-white/20 relative">
-                <div className="aspect-square md:h-full w-full relative">
+              {/* ფოტოს ჩარჩო - სიმაღლე გაზრდილია 15%-ით (aspect-[3/4.2]) */}
+              <div className="w-full md:w-48 lg:w-56 shrink-0 overflow-hidden rounded-[20px] bg-white/20 relative">
+                <div className="aspect-4/3 md:h-full w-full relative">
                   <img 
                     src={item.image_url}
                     alt={item.name}
@@ -100,6 +109,16 @@ const NewsSlider = () => {
           </SwiperSlide>
         ))}
       </Swiper>
+
+      {/* მობილური ვერსიის ღილაკი (ქვემოთ) */}
+      <div className="flex md:hidden justify-center mt-8">
+        <button className="w-full bg-[#ffe4d1] text-[#0f0a21] px-6 py-4 rounded-full font-bold flex items-center justify-center gap-3 active:scale-95 transition-all uppercase [font-variant-caps:all-petite-caps]">
+          ყველა სიახლე
+          <div className="bg-[#f3713d] text-white p-1 rounded-full">
+            <ArrowUpRight size={18} />
+          </div>
+        </button>
+      </div>
     </section>
   );
 };
