@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { ArrowRight, ArrowLeft, GraduationCap, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -38,7 +39,7 @@ const ProfessionsSlider = () => {
   }
 
   return (
-    <section className="py-12 md:py-20 px-4 md:px-10 xl:px-20 overflow-hidden font-noto bg-[#fcfcfc]">
+    <section className="py-12 md:py-20 px-4 md:px-10 xl:px-20 overflow-hidden font-noto">
       <style>{`
         .fade-mask-prof {
           -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
@@ -57,13 +58,16 @@ const ProfessionsSlider = () => {
             გაიცანი<br className="hidden lg:block" /> შენი <br className="hidden lg:block" /> მომავალი<br className="hidden lg:block" /> პროფესია
           </h2>
 
-          <button className="hidden lg:flex bg-[#f3713d] text-white px-6 py-4 mt-10 rounded-full items-center gap-3 font-bold hover:bg-[#d95f2d] transition-all group shadow-lg">
+          <Link
+            to="/professions"
+            className="hidden lg:flex bg-[#f3713d] text-white px-6 py-4 mt-10 rounded-full items-center gap-3 font-bold hover:bg-[#d95f2d] transition-all group shadow-lg w-fit"
+          >
             <div className="bg-white/20 p-2 rounded-full text-white">
               <GraduationCap size={20} />
             </div>
             ყველა პროფესია
             <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-          </button>
+          </Link>
         </div>
 
         <div className="lg:w-2/3 relative group">

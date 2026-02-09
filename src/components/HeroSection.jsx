@@ -19,7 +19,7 @@ const HeroSection = () => {
 
   return (
     <section
-      className={`relative min-h-[70dvh] md:min-h-[80dvh] xl:min-h-[75vh] flex flex-col items-center justify-between md:justify-center pt-24 pb-12 md:py-32 overflow-hidden md:mx-5.5 xl:mx-5.5 rounded-b-[40px] md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'} bg-cover bg-center font-noto`}
+      className={`relative min-h-[70dvh] md:min-h-[80dvh] xl:min-h-200 flex flex-col items-center justify-between md:justify-center pt-24 pb-12 md:py-30 overflow-hidden md:mx-5.5 xl:mx-5.5 rounded-b-[40px] md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'} bg-cover bg-center font-noto`}
       style={{
         '--bg-desktop': `url(${mainBg})`,
         '--bg-mobile': `url(${mainBgMobile})`

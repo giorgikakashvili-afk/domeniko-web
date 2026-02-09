@@ -19,7 +19,7 @@ const Slider = () => {
   ];
 
   return (
-    <section className="py-30 overflow-hidden font-noto flex items-center justify-center">
+    <section className="py-40 overflow-hidden font-noto flex items-center justify-center">
       <style>{`
   .slider-wrapper {
     width: 1122px;
@@ -295,7 +295,7 @@ const Slider = () => {
                   <img
                     src={slbg}
                     alt="Desktop Background"
-                    className="bg-image w-full h-full object-cover hidden md:block"
+                    className="bg-image w-full h-[90%] object-cover hidden md:block"
                     data-swiper-parallax="-100"
                   />
                   <div className="overlay-gradient absolute inset-0 z-1"></div>

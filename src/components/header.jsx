@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X } from "lucide-react";
 import logo from '../assets/main_img/logo-dom.png';
-import {User} from 'lucide-react';
+import { User } from 'lucide-react';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -13,7 +13,7 @@ const Header = () => {
         md:bg-[#fff4ec] - 768px-დან ფერი იცვლება ღიაზე
         xl:justify-around - 1280px-დან გასწორება იცვლება დესკტოპისთვის
       */}
-      <div className="bg-[#09002f] md:bg-[#fff4ec] w-full h-21 flex justify-between items-center mt-6 px-4 xl:px-5">
+      <div className="bg-[#09002f] md:bg-[#fff4ec] w-full h-21 flex justify-between items-center mt-0 md:mt-6 px-4 xl:px-5">
 
         {/* ლოგო */}
         <div className="bg-[#09002f] px-8 py-3 rounded-3xl">
@@ -56,7 +56,7 @@ const Header = () => {
             onClick={() => setIsOpen(!isOpen)}
           >
             {isOpen ? (
-              <X size={32} className="text-white md:text-[#09002f]"/>
+              <X size={32} className="text-white md:text-[#09002f]" />
             ) : (
               <div className="w-8 h-8">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -97,7 +97,7 @@ const Header = () => {
         <div className="absolute top-21 left-0 w-full bg-white z-50 shadow-2xl flex flex-col items-center py-10 gap-6 xl:hidden">
           <Link to="/about" className="text-xl font-bold" onClick={() => setIsOpen(false)}>ჩვენ შესახებ</Link>
           <Link to="/calendar" className="text-xl font-bold" onClick={() => setIsOpen(false)}>კალენდარი</Link>
-          <Link to="/professions" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პროფესიები</Link>
+          <Link to="/Professions" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პროფესიები</Link>
           <Link to="/tests" className="text-xl font-bold" onClick={() => setIsOpen(false)}>ტესტირება</Link>
           <Link to="/part" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პარტნიორები</Link>
 
