@@ -111,9 +111,12 @@ const ProfessionsSlider = () => {
                     <p className="text-[#f3713d] font-bold text-sm uppercase">
                       {prof.type || "უმაღლესი განათლება"}
                     </p>
-                    <div className="flex gap-4 mt-2 text-[#6b7280] text-xs font-semibold">
-                      <span className="flex items-center gap-1">პროფესიული კურსი</span>
-                      <span className="flex items-center gap-1">მენტორი</span>
+                    <div className="flex flex-col gap-1 lg:gap-2 text-[#6b7280] text-[11px] md:text-[12px] font-black uppercase pt-2 lg:pt-5 border-t border-gray-100">
+                      <div className="flex flex-wrap gap-x-3 gap-y-1 ">
+                        <span className="whitespace-nowrap">3 ვიდეო</span>
+                        <span className="whitespace-nowrap">5 კურსი</span>
+                        <span className="whitespace-nowrap w-full">12 პროფესიონალი</span>
+                      </div>
                     </div>
                   </div>
                 </div>

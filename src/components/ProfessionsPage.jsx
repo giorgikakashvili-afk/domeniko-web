@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Loader2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 const ProfessionsPage = () => {
     const [professions, setProfessions] = useState([]);
@@ -51,8 +52,8 @@ const ProfessionsPage = () => {
                             key={cat.id}
                             onClick={() => setActiveFilter(cat.id)}
                             className={`p-8 xl:py-12 rounded-[30px] flex items-center gap-6 transition-all duration-300 border-2 ${activeFilter === cat.id
-                                    ? "bg-[#ffe4d1] border-[#f3713d] shadow-lg"
-                                    : "bg-white border-transparent shadow-sm hover:shadow-md"
+                                ? "bg-[#ffe4d1] border-[#f3713d] shadow-lg"
+                                : "bg-white border-transparent shadow-sm hover:shadow-md"
                                 }`}
                         >
                             <span className="text-4xl">{cat.icon}</span>
@@ -77,31 +78,32 @@ const ProfessionsPage = () => {
                 {/* პროფესიების ბადე (Grid) */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                     {filteredProfessions.map((prof) => (
-                        <div
+                        <Link
+                            to={`/professions/${prof.id}`} // API-დან წამოსული ID-ის გამოყენება
                             key={prof.id}
-                            className="bg-white rounded-xl overflow-hidden shadow-sm border-2 border-transparent hover:border-[#f3713d]/30 transition-all group flex flex-row lg:flex-col h-auto lg:h-full"
+                            className="bg-white rounded-[30px] overflow-hidden shadow-sm border-2 border-transparent hover:border-[#f3713d]/30 transition-all group flex flex-row lg:flex-col h-auto lg:h-full cursor-pointer"
                         >
                             {/* ფოტოს ნაწილი */}
-                            <div className="relative w-2/5 lg:w-full aspect-square  md:aspect-4/3 overflow-hidden rounded-xl bg-gray-100 shrink-0">
+                            <div className="relative w-2/5 lg:w-full aspect-square md:aspect-4/3 overflow-hidden bg-gray-100 shrink-0">
                                 <img
                                     src={prof.image_url}
                                     alt={prof.name}
-                                    className="absolute text-base inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                                    className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                                 />
                             </div>
 
                             {/* ტექსტის ნაწილი */}
                             <div className="p-4 md:p-6 flex flex-col justify-center lg:justify-start flex-1">
-                                <h3 className="text-xl md:text-2xl font-black text-[#0A0521] uppercase [font-variant-caps:all-petite-caps] mb-1 lg:mb-2 line-clamp-2">
+                                <h3 className="text-sm md:text-xl font-black text-[#0A0521] uppercase [font-variant-caps:all-petite-caps] mb-1 lg:mb-2 line-clamp-2">
                                     {prof.name}
                                 </h3>
 
-                                <p className="text-[#f3713d] font-bold text-[12px] md:text-sm uppercase mb-3 lg:mb-4">
+                                <p className="text-[#f3713d] font-bold text-[10px] md:text-sm uppercase mb-3 lg:mb-4">
                                     {prof.type || "უმაღლესი განათლება"}
                                 </p>
 
-                                {/* სტატისტიკა - მობილურზე უფრო კომპაქტური */}
-                                <div className="flex flex-col gap-1 lg:gap-2 text-[#6b7280] text-[12px] md:text-[13px] font-black uppercase pt-2 lg:pt-5 border-t border-gray-100">
+                                {/* სტატისტიკა */}
+                                <div className="flex flex-col gap-1 lg:gap-2 text-[#6b7280] text-[11px] md:text-[12px] font-black uppercase pt-2 lg:pt-5 border-t border-gray-100">
                                     <div className="flex flex-wrap gap-x-3 gap-y-1 lg:flex-nowrap">
                                         <span className="whitespace-nowrap">3 ვიდეო</span>
                                         <span className="whitespace-nowrap">5 კურსი</span>
@@ -109,7 +111,7 @@ const ProfessionsPage = () => {
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </Link>
                     ))}
                 </div>
 

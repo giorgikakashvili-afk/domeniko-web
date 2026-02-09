@@ -4,7 +4,8 @@ import ScrollToTop from './components/ScrollToTop';
 import Header from './components/header';
 import Footer from './components/footer';
 import Home from './pages/home';
-import ProfessionsPage from './pages/Professions'; 
+import ProfessionsPage from './pages/Professions';
+import ProfessionSinglePage from './pages/ProfessionSinglePage'; 
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/professions" element={<ProfessionsPage />} />
+          <Route path="/professions/:id" element={<ProfessionSinglePage />} />
         </Routes>
       </main>
 
