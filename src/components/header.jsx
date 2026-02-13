@@ -1,28 +1,37 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Link, useNavigate } from "react-router-dom";
+import { Menu, X, User, LogOut } from "lucide-react";
 import logo from '../assets/main_img/logo-dom.png';
-import { User } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const { user, logout, loading } = useAuth();
+  const navigate = useNavigate();
+
+  // ფუნქცია გამოსვლისთვის, რომელიც ასუფთავებს სტეიტს და გადამისამართებს
+  const handleLogout = async () => {
+    try {
+      await logout();
+      setIsOpen(false); // ვხურავთ მენიუს (თუ მობილურზეა)
+      navigate('/'); // გადავდივართ მთავარზე
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  };
 
   return (
     <div className="relative w-full font-noto md:mb-1">
-      {/* bg-[#09002f] - ლურჯი ფერი მობილურზე
-        md:bg-[#fff4ec] - 768px-დან ფერი იცვლება ღიაზე
-        xl:justify-around - 1280px-დან გასწორება იცვლება დესკტოპისთვის
-      */}
       <div className="bg-[#09002f] md:bg-[#fff4ec] w-full h-21 flex justify-between items-center mt-0 md:mt-6 px-4 xl:px-5">
 
-        {/* ლოგო */}
+        {/* ლოგო - უცვლელია */}
         <div className="bg-[#09002f] px-8 py-3 rounded-3xl">
           <Link to="/" className="h-full flex items-center">
             <img src={logo} alt="Domeniko Logo" className="h-13 object-contain shrink-0" />
           </Link>
         </div>
 
-        {/* დესკტოპ ნავიგაცია - გამოჩნდება მხოლოდ xl (1280px) ზემოთ */}
+        {/* დესკტოპ ნავიგაცია - უცვლელია */}
         <nav className="hidden xl:flex items-center gap-8 font-medium text-[#0A0521] text-sm">
           <Link to="/about" className="flex items-center gap-1 hover:text-[#f3713d] transition-colors">
             <span>ჩვენ შესახებ</span>
@@ -36,21 +45,48 @@ const Header = () => {
           <Link to="/part" className="hover:text-[#f3713d] transition-colors">პარტნიორები</Link>
         </nav>
 
-        {/* დესკტოპ რეგისტრაციის ღილაკი - გამოჩნდება მხოლოდ xl (1280px) ზემოთ */}
+        {/* ავტორიზაციის / პროფილის ბლოკი */}
         <div className="flex items-center gap-2 md:gap-4">
-
-          {/* რეგისტრაცია ავტორიზაცია ღილაკი */}
-          <button className="flex w-auto xl:w-88.5 h-10 xl:h-14 bg-[#ffe4d1] rounded-full border border-[#f3713d] justify-center gap-2 items-center hover:bg-[#ffd8bc] transition-all cursor-pointer py-2 px-2 md:py-6 md:px-5  xl:py-2  xl:px-4 shrink-0">
-            <span className="font-black text-xs md:text-sm xl:text-xl [font-variant-caps:all-petite-caps] tracking-wide">
-              <span className="xl:hidden inline-block text-base md:text-xl -translate-y-0.5">ავტორიზაცია</span>
-              <span className="hidden xl:inline">
-                რეგისტრაცია <span className="font-normal text-base opacity-50">|</span> ავტორიზაცია
+          
+          {loading ? (
+            <div className="w-8 h-8 border-4 border-[#f3713d] border-t-transparent rounded-full animate-spin"></div>
+          ) : user ? (
+            <div className="flex items-center gap-3 bg-white/50 backdrop-blur-sm p-1 xl:p-2 pr-4 rounded-full border border-[#f3713d]/20">
+              <Link to="/dashboard" className="w-8 h-8 xl:w-10 xl:h-10 bg-[#f3713d] rounded-full flex justify-center items-center text-white hover:scale-105 transition-transform">
+                <User size={20} />
+              </Link>
+              <div className="hidden md:flex flex-col min-w-[80px]">
+                <span className="text-[10px] font-black opacity-50 uppercase leading-none">პროფილი</span>
+                <span className="text-sm font-black text-[#0A0521] truncate max-w-[120px]">
+                  {user.firstname || "მომხმარებელი"}
+                </span>
+              </div>
+              <button 
+                onClick={handleLogout}
+                className="p-2 hover:bg-red-50 text-red-500 rounded-full transition-colors active:scale-90"
+                title="გამოსვლა"
+              >
+                <LogOut size={18} />
+              </button>
+            </div>
+          ) : (
+            <button 
+              onClick={() => navigate('/register')}
+              className="flex w-auto xl:w-88.5 h-10 xl:h-14 bg-[#ffe4d1] rounded-full border border-[#f3713d] justify-center gap-2 items-center hover:bg-[#ffd8bc] transition-all cursor-pointer py-2 px-2 md:py-6 md:px-5 xl:py-2 xl:px-4 shrink-0"
+            >
+              <span className="font-black text-xs md:text-sm xl:text-xl [font-variant-caps:all-petite-caps] tracking-wide">
+                <span className="xl:hidden inline-block text-base md:text-xl -translate-y-0.5 uppercase">რეგისტრაცია</span>
+                <span className="hidden xl:inline uppercase">
+                  რეგისტრაცია <span className="font-normal text-base opacity-50">|</span> ავტორიზაცია
+                </span>
               </span>
-            </span>
-            <div className="w-5 h-5 xl:w-8 xl:h-8 bg-[#f3713d] rounded-full shrink-0 flex justify-center items-center"><User size={22} /></div>
-          </button>
+              <div className="w-5 h-5 xl:w-8 xl:h-8 bg-[#f3713d] rounded-full shrink-0 flex justify-center items-center text-white">
+                <User size={22} />
+              </div>
+            </button>
+          )}
 
-          {/* ჰამბურგერი - ჩნდება მხოლოდ xl-მდე */}
+          {/* ჰამბურგერი - უცვლელია */}
           <button
             className="xl:hidden p-1 transition-transform active:scale-90"
             onClick={() => setIsOpen(!isOpen)}
@@ -60,31 +96,10 @@ const Header = () => {
             ) : (
               <div className="w-8 h-8">
                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  {/* ნარინჯისფერი რგოლები*/}
                   <circle cx="28" cy="28" r="14" stroke="#f3713d" strokeWidth="10" />
                   <circle cx="75" cy="75" r="14" stroke="#f3713d" strokeWidth="10" />
-
-                  {/* ეს რგოლი იცვლის ფერს: 
-                    მობილურზე: თეთრი (ლურჯ ფონზე)
-                    პლანშეტზე (md): მუქი ლურჯი (კრემისფერ ფონზე)*/}
-                  <circle
-                    cx="75"
-                    cy="28"
-                    r="14"
-                    strokeWidth="10"
-                    stroke="currentColor"
-                    className="text-white md:text-[#09002f]"
-                  />
-
-                  {/* მეორე ცვალებადი რგოლი */}
-                  <circle
-                    cx="28"
-                    cy="75"
-                    r="14"
-                    strokeWidth="10"
-                    stroke="currentColor"
-                    className="text-white md:text-[#09002f]"
-                  />
+                  <circle cx="75" cy="28" r="14" strokeWidth="10" stroke="currentColor" className="text-white md:text-[#09002f]" />
+                  <circle cx="28" cy="75" r="14" strokeWidth="10" stroke="currentColor" className="text-white md:text-[#09002f]" />
                 </svg>
               </div>
             )}
@@ -92,16 +107,33 @@ const Header = () => {
         </div>
       </div>
 
-      {/* მობილური მენიუ - იხსნება xl (1280px) ზომამდე */}
+      {/* მობილური მენიუ */}
       {isOpen && (
-        <div className="absolute top-21 left-0 w-full bg-white z-50 shadow-2xl flex flex-col items-center py-10 gap-6 xl:hidden">
+        <div className="absolute top-21 left-0 w-full bg-white z-[100] shadow-2xl flex flex-col items-center py-10 gap-6 xl:hidden animate-in slide-in-from-top duration-300">
           <Link to="/about" className="text-xl font-bold" onClick={() => setIsOpen(false)}>ჩვენ შესახებ</Link>
           <Link to="/calendar" className="text-xl font-bold" onClick={() => setIsOpen(false)}>კალენდარი</Link>
-          <Link to="/Professions" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პროფესიები</Link>
+          <Link to="/professions" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პროფესიები</Link>
           <Link to="/tests" className="text-xl font-bold" onClick={() => setIsOpen(false)}>ტესტირება</Link>
           <Link to="/part" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პარტნიორები</Link>
+          
+          <div className="w-full px-10 h-[1px] bg-gray-100 my-2"></div>
 
-
+          {user ? (
+            <button 
+              onClick={handleLogout}
+              className="flex items-center gap-2 text-red-500 font-black text-xl uppercase italic"
+            >
+              <LogOut size={24} /> გამოსვლა
+            </button>
+          ) : (
+            <Link 
+              to="/register" 
+              className="bg-[#f3713d] text-white px-10 py-3 rounded-full font-black uppercase italic tracking-tighter shadow-lg shadow-orange-200" 
+              onClick={() => setIsOpen(false)}
+            >
+              რეგისტრაცია
+            </Link>
+          )}
         </div>
       )}
     </div>

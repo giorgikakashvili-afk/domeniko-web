@@ -25,7 +25,7 @@ const HeroSection = () => {
         '--bg-mobile': `url(${mainBgMobile})`
       }}
     >
-      <style jsx>{`
+      <style>{`
         section {
           background-image: var(--bg-mobile);
         }

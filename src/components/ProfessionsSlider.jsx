@@ -93,33 +93,40 @@ const ProfessionsSlider = () => {
           >
             {professions.map((prof) => (
               <SwiperSlide key={prof.id}>
-                <div className="bg-white rounded-3xl overflow-hidden shadow-sm h-full m-2 cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-[#f3713d] hover:shadow-xl group/card">
+                {/* დავამატეთ Link კომპონენტი, რომელიც ფარავს მთელ ბარათს */}
+                <Link
+                  to={`/professions/${prof.id}`}
+                  className="block h-full group/card"
+                >
+                  <div className="bg-white rounded-3xl overflow-hidden shadow-sm h-full m-2 cursor-pointer border-2 border-transparent transition-all duration-300 hover:border-[#f3713d] hover:shadow-xl">
 
-                  {/* ფოტოს კონტეინერი - ფიქსირებული პროპორციით (მაგ. 4:3) */}
-                  <div className="relative w-full aspect-3/3 overflow-hidden bg-gray-100">
-                    <img
-                      src={prof.image_url}
-                      alt={prof.name}
-                      className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
-                    />
-                  </div>
+                    {/* ფოტოს კონტეინერი */}
+                    <div className="relative w-full aspect-3/3 overflow-hidden bg-gray-100">
+                      <img
+                        src={prof.image_url}
+                        alt={prof.name}
+                        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover/card:scale-110"
+                      />
+                    </div>
 
-                  <div className="p-6 md:p-7 flex flex-col gap-2">
-                    <h3 className="text-lg md:text-xl font-black text-[#0A0521] uppercase [font-variant-caps:all-petite-caps] min-h-14 line-clamp-2">
-                      {prof.name}
-                    </h3>
-                    <p className="text-[#f3713d] font-bold text-sm uppercase">
-                      {prof.type || "უმაღლესი განათლება"}
-                    </p>
-                    <div className="flex flex-col gap-1 lg:gap-2 text-[#6b7280] text-[11px] md:text-[12px] font-black uppercase pt-2 lg:pt-5 border-t border-gray-100">
-                      <div className="flex flex-wrap gap-x-3 gap-y-1 ">
-                        <span className="whitespace-nowrap">3 ვიდეო</span>
-                        <span className="whitespace-nowrap">5 კურსი</span>
-                        <span className="whitespace-nowrap w-full">12 პროფესიონალი</span>
+                    <div className="p-6 md:p-7 flex flex-col gap-2">
+                      <h3 className="text-lg md:text-xl font-black text-[#0A0521] uppercase [font-variant-caps:all-petite-caps] min-h-14 line-clamp-2">
+                        {prof.name}
+                      </h3>
+                      <p className="text-[#f3713d] font-bold text-sm uppercase">
+                        {prof.type || "უმაღლესი განათლება"}
+                      </p>
+
+                      <div className="flex flex-col gap-1 lg:gap-2 text-[#6b7280] text-[11px] md:text-[12px] font-black uppercase pt-2 lg:pt-5 border-t border-gray-100">
+                        <div className="flex flex-wrap gap-x-3 gap-y-1 ">
+                          <span className="whitespace-nowrap">3 ვიდეო</span>
+                          <span className="whitespace-nowrap">5 კურსი</span>
+                          <span className="whitespace-nowrap w-full">12 პროფესიონალი</span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                </Link>
               </SwiperSlide>
             ))}
           </Swiper>
