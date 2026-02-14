@@ -12,15 +12,19 @@ const ProfessionsPage = () => {
         // მონაცემების წამოღება Profession API-დან [cite: 17, 20]
         const fetchProfessions = async () => {
             try {
-                const response = await fetch('https://rost.ge/api/professions');
-                const result = await response.json();
-                setProfessions(result.data); // ვიღებთ მონაცემებს "data" მასივიდან [cite: 22, 23]
-            } catch (error) {
-                console.error("Error:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
+            const response = await fetch('https://rost.ge/api/professions?per_page=100');
+            const result = await response.json();
+            
+            // შეამოწმეთ კონსოლში რამდენი მოვიდა სულ
+            console.log("სულ მოვიდა:", result.data.length); 
+            
+            setProfessions(result.data);
+        } catch (error) {
+            console.error("Error:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
         fetchProfessions();
     }, []);
 

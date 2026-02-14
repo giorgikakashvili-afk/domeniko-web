@@ -12,47 +12,52 @@ const ProfileUpdate = () => {
   });
   
   const [cities, setCities] = useState([]);
-  const [classes, setClasses] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // 1. მონაცემების და სიების ჩატვირთვა ბაზიდან
+  // კლასების ფიქსირებული ჩამონათვალი
+  const staticClasses = [
+    { id: '11', name: '11' },
+    { id: '12', name: '12' }
+  ];
+
   useEffect(() => {
     const fetchData = async () => {
       const token = localStorage.getItem('token');
       try {
-        const [profileRes, citiesRes, classesRes] = await Promise.all([
+        // მხოლოდ პროფილის და ქალაქების წამოღება
+        const [profileRes, citiesRes] = await Promise.all([
           fetch('https://rost.ge/api/profile', { headers: { 'Authorization': `Bearer ${token}` } }),
-          fetch('https://rost.ge/api/cities'),
-          fetch('https://rost.ge/api/classes')
+          fetch('https://rost.ge/api/cities')
         ]);
         
         const profileData = await profileRes.json();
         const citiesData = await citiesRes.json();
-        const classesData = await classesRes.json();
 
-        setCities(citiesData);
-        setClasses(classesData);
+        // ქალაქების დასმა (ამოწმებს .data სტრუქტურასაც ყოველი შემთხვევისთვის)
+        setCities(Array.isArray(citiesData) ? citiesData : (citiesData.data || []));
 
         if (profileRes.ok) {
+          // თუ API-ს პასუხი ობიექტშია (მაგ. {data: {...}}), ვიღებთ შიგნიდან
+          const user = profileData.data || profileData;
+
           setFormData({
-            firstname: profileData.firstname || '',
-            lastname: profileData.lastname || '',
-            city_id: profileData.city_id || '',
-            school: profileData.school || '',
-            class: profileData.class || ''
+            firstname: user.firstname || '',
+            lastname: user.lastname || '',
+            city_id: user.city_id || '',
+            school: user.school || '',
+            class: user.class || ''
           });
 
-          // ავტომატური გადასვლა ეტაპებს შორის არსებული მონაცემების მიხედვით
-          if (profileData.firstname && profileData.lastname && profileData.class && profileData.school) {
+          // ავტომატური გადასვლა ეტაპებზე
+          if (user.firstname && user.lastname && user.class && user.school) {
             setStep(4);
-          } else if (profileData.firstname && profileData.lastname) {
+          } else if (user.firstname && user.lastname) {
             setStep(3); 
           }
         }
       } catch (err) {
         console.error("Fetch error:", err);
-        setError('მონაცემების წამოღება ვერ მოხერხდა');
       } finally {
         setLoading(false);
       }
@@ -60,7 +65,6 @@ const ProfileUpdate = () => {
     fetchData();
   }, []);
 
-  // 2. ტაიმერის ლოგიკა
   const calculateTimeLeft = () => {
     const targetDate = new Date('2026-03-01T00:00:00');
     const now = new Date();
@@ -84,14 +88,12 @@ const ProfileUpdate = () => {
     }
   }, [step]);
 
-  // 3. ვალიდაციის შემოწმება
   const isStepValid = () => {
     if (step === 1) return formData.firstname.trim() !== '' && formData.lastname.trim() !== '';
     if (step === 3) return formData.city_id !== '' && formData.school.trim() !== '' && formData.class !== '';
     return true;
   };
 
-  // 4. მონაცემების შენახვა [cite: 48]
   const handleFinalSubmit = async () => {
     setLoading(true);
     const token = localStorage.getItem('token');
@@ -99,11 +101,11 @@ const ProfileUpdate = () => {
       const response = await fetch('https://rost.ge/api/profile/update', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${token}`, // [cite: 9]
+          'Authorization': `Bearer ${token}`,
           'Content-Type': 'application/json',
           'Accept': 'application/json'
         },
-        body: JSON.stringify(formData) // [cite: 50]
+        body: JSON.stringify(formData)
       });
       if (response.ok) setStep(4);
       else setError('ვერ მოხერხდა მონაცემების შენახვა');
@@ -118,37 +120,51 @@ const ProfileUpdate = () => {
     return <div className="min-h-screen flex items-center justify-center bg-[#FFF4EC] font-noto font-black italic">იტვირთება...</div>;
   }
 
-  // მე-4 ეტაპი: მილოცვა და ტაიმერი
   if (step === 4) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center p-6 text-center bg-[#FFF4EC] font-noto">
-        <div className="max-w-2xl bg-white p-12 rounded-[50px] shadow-2xl relative animate-in fade-in duration-700">
-          <h1 className="text-[#0A0521] text-4xl font-black mb-8 uppercase italic leading-tight">
-            გამარჯობა, <span className="text-[#f3713d]">{formData.firstname}</span>!
+      <div className="min-h-screen flex flex-col items-center justify-center p-4 font-noto">
+      {/* მთავარი კონტეინერი (ბარათი) */}
+      <div className="w-full max-w-[900px] bg-white rounded-[40px] overflow-hidden shadow-2xl relative">
+        
+        {/* ზედა სურათის სექცია */}
+        <div className="w-full h-[300px] md:h-[450px] relative">
+          <img 
+            src="/path-to-your-illustration.jpg" // აქ ჩასვი შენი ფოტოს მისამართი
+            alt="Domeniko Illustration" 
+            className="w-full h-full object-cover"
+          />
+          
+        </div>
+
+        {/* ტექსტური სექცია */}
+        <div className="p-8 md:p-16 text-center">
+          <h1 className="text-[#0A0521] text-4xl md:text-5xl font-black uppercase mb-8 tracking-tight">
+            გამარჯობა, {user?.firstname || ''}
           </h1>
-          <div className="space-y-4 text-[#0A0521] text-lg font-bold mb-10">
-            <p>კეთილი იყოს შენი პირველი შეხვედრა დომენიკოსთან.</p>
-            <p className="text-[#f3713d] font-black italic">პირველი ეტაპი 1 მარტს გაჩნდება</p>
+
+          <div className="space-y-2 mb-10 text-[#0A0521] text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
+            <p>კეთილი იყოს შენი პირველი შეხვედრა დომენიკოსთან, ჩვენ ერთად აღმოვაჩენთ შესაძლებლობებს.</p>
+            <p className="font-black">დაელოდე პირველ კომუნიკაციას დომენიკოსგან.</p>
+            <p className="text-[#f3713d] font-black">შენს პროფილში პირველი ეტაპი 1 მარტს გაჩნდება</p>
           </div>
-          <div className="flex gap-4 md:gap-6 justify-center items-center bg-gray-50 py-8 px-4 rounded-[30px]">
-            {[{l:'დღე',v:timeLeft.days}, {l:'საათი',v:timeLeft.hours}, {l:'წუთი',v:timeLeft.minutes}, {l:'წამი',v:timeLeft.seconds}].map((t, i) => (
-              <React.Fragment key={t.l}>
-                <div className="flex flex-col min-w-[60px]">
-                  <span className="text-4xl md:text-5xl font-black text-[#0A0521] tabular-nums">{String(t.v).padStart(2, '0')}</span>
-                  <span className="text-[9px] font-black uppercase text-gray-400 mt-1">{t.l}</span>
-                </div>
-                {i < 3 && <span className="text-2xl font-black text-[#f3713d] mb-4">:</span>}
-              </React.Fragment>
-            ))}
+
+          {/* ტაიმერის ღილაკი (Capsule) */}
+          <div className="inline-flex items-center gap-3 border-2 border-[#f3713d]/30 px-8 py-4 rounded-full bg-orange-50/30 shadow-sm">
+            <div className="w-10 h-10 bg-[#f3713d]/10 rounded-full flex items-center justify-center">
+              <Clock className="text-[#f3713d]" size={20} />
+            </div>
+            <span className="text-[#0A0521] text-xl font-black tabular-nums">
+              {timeLeft.days} დღე, {timeLeft.hours} საათი, {timeLeft.minutes} წუთი
+            </span>
           </div>
         </div>
       </div>
+    </div>
     );
   }
 
   return (
     <div className="min-h-screen bg-[#FFF4EC] relative flex flex-col items-center justify-center font-noto overflow-hidden px-4">
-      {/* დეკორატიული სილუეტები */}
       <div className="hidden lg:block absolute left-0 bottom-0 w-[25%] h-[60%] opacity-10 pointer-events-none bg-no-repeat bg-contain bg-left-bottom" style={{ backgroundImage: 'url("/left-hero.png")' }}></div>
       <div className="hidden lg:block absolute right-5 bottom-10 w-[20%] h-[50%] opacity-10 pointer-events-none bg-no-repeat bg-contain bg-right-bottom" style={{ backgroundImage: 'url("/right-hero.png")' }}></div>
 
@@ -187,7 +203,6 @@ const ProfileUpdate = () => {
 
           {step === 3 && (
             <div className="space-y-3 animate-in fade-in slide-in-from-bottom-2">
-              {/* ქალაქი - დინამიური სია ბაზიდან */}
               <div className="relative text-left">
                 <span className="absolute left-6 top-3 text-[10px] font-black text-gray-400 uppercase z-10">ქალაქი</span>
                 <select 
@@ -203,7 +218,6 @@ const ProfileUpdate = () => {
                 <ChevronDown size={18} className="absolute right-6 top-7 text-gray-400 pointer-events-none" />
               </div>
 
-              {/* სკოლა - ტექსტური ველი */}
               <div className="relative text-left">
                 <span className="absolute left-6 top-3 text-[10px] font-black text-gray-400 uppercase">სკოლა</span>
                 <input
@@ -215,7 +229,6 @@ const ProfileUpdate = () => {
                 />
               </div>
 
-              {/* კლასი - დინამიური სია ბაზიდან */}
               <div className="relative text-left">
                 <span className="absolute left-6 top-3 text-[10px] font-black text-gray-400 uppercase z-10">კლასი</span>
                 <select 
@@ -224,7 +237,7 @@ const ProfileUpdate = () => {
                   className="w-full bg-white rounded-xl pt-8 pb-3 px-6 shadow-sm border border-gray-100 outline-none font-bold text-[#0A0521] appearance-none cursor-pointer"
                 >
                   <option value="">აირჩიე კლასი</option>
-                  {classes.map(c => (
+                  {staticClasses.map(c => (
                     <option key={c.id} value={c.id}>{c.name}</option>
                   ))}
                 </select>

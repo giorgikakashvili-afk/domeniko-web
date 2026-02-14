@@ -30,8 +30,8 @@ const NewsSlider = () => {
     <section className="bg-[#09002f] py-16 px-4 md:px-10 font-noto rounded-[40px] mx-4 md:mx-10 my-10 overflow-hidden">
       {/* ზედა ზოლი ღილაკით */}
       <div className="flex flex-col md:flex-row justify-between items-center mb-10 gap-6">
-        <h2 className="text-white text-3xl md:text-5xl font-black uppercase [font-variant-caps:all-petite-caps] tracking-tight font-noto">
-          ბოლო სიახლეები
+        <h2 className="text-white text-3xl md:text-7xl font-black uppercase [font-variant-caps:all-petite-caps] tracking-tight font-noto">
+          სიახლეები
         </h2>
 
         <div className="flex items-center gap-4">

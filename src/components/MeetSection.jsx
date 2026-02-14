@@ -52,7 +52,7 @@ const MeetSection = () => {
             `}</style>
 
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-8xl mx-auto gap-4">
-                <h2 className="text-3xl md:text-5xl font-noto font-black text-[#2d1b4d] uppercase [font-variant-caps:all-petite-caps] leading-tight text-center md:text-left tracking-tight">
+                <h2 className="text-3xl md:text-7xl font-noto font-black text-[#2d1b4d] uppercase [font-variant-caps:all-petite-caps] leading-tight text-center md:text-left tracking-tight">
                     ვის შეხვდები <br className="md:hidden" /> დომენიკოსთან ერთად
                 </h2>
                 <button className="hidden md:flex items-center gap-2 bg-[#f3713d] text-white text-xl px-8 py-4 rounded-full font-black font-noto transition-all hover:scale-105 shadow-lg active:scale-95 uppercase [font-variant-caps:all-petite-caps]">

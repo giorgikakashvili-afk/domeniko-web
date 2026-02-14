@@ -24,9 +24,9 @@ const Footer = () => {
         {/* 2. ნავიგაცია */}
         <div className="flex flex-col gap-4 items-start xl:pt-5">
           <Link to="/about" className="hover:text-[#f3713d] transition-all text-sm font-bold">ჩვენ შესახებ</Link>
+          <Link to="/partners" className="hover:text-[#f3713d] transition-all text-sm font-bold">პარტნიორები</Link>
           <Link to="/terms" className="hover:text-[#f3713d] transition-all text-sm font-bold">წესები და პირობები</Link>
           <Link to="/privacy" className="hover:text-[#f3713d] transition-all text-sm font-bold">კონფიდენციალურობის პოლიტიკა</Link>
-          <Link to="/partners" className="hover:text-[#f3713d] transition-all text-sm font-bold">პარტნიორები</Link>
           <Link to="/calendar" className="hover:text-[#f3713d] transition-all text-sm font-bold">დომენიკოს კალენდარი</Link>
           <Link to="/professions" className="hover:text-[#f3713d] transition-all text-sm font-bold">პროფესიები</Link>
           <Link to="/tests" className="hover:text-[#f3713d] transition-all text-sm font-bold">ტესტირება</Link>
@@ -51,7 +51,7 @@ const Footer = () => {
               <div className="bg-[#f3713d]/20 p-2 rounded-full">
                 <Phone size={16} className="text-[#f3713d]" />
               </div>
-              <span className="text-sm font-bold">0322 2 36 21 23</span>
+              <span className="text-sm font-bold">592015091</span>
             </div>
             
             <div className="flex items-center gap-3">
@@ -66,7 +66,7 @@ const Footer = () => {
                 <MapPin size={16} className="text-[#f3713d]" />
               </div>
               <span className="text-sm font-bold leading-relaxed max-w-55">
-                გურამიშვილის ქ. №14 ბ, თბილისი, საქართველო
+                დავით გურამიშვილის გამზირი 78ბ, თბილისი, საქართველო
               </span>
             </div>
           </div>

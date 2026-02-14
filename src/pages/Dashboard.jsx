@@ -54,18 +54,13 @@ const Dashboard = () => {
             alt="Domeniko Illustration" 
             className="w-full h-full object-cover"
           />
-          <button 
-            onClick={() => { localStorage.removeItem('token'); navigate('/login'); }}
-            className="absolute top-6 right-6 p-3 bg-white/20 backdrop-blur-md rounded-full text-white hover:bg-white/40 transition-all"
-          >
-            <LogOut size={20} />
-          </button>
+          
         </div>
 
         {/* ტექსტური სექცია */}
         <div className="p-8 md:p-16 text-center">
           <h1 className="text-[#0A0521] text-4xl md:text-5xl font-black uppercase mb-8 tracking-tight">
-            გამარჯობა, {user?.firstname || 'შოთა'}
+            გამარჯობა, {user?.firstname || ''}
           </h1>
 
           <div className="space-y-2 mb-10 text-[#0A0521] text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">

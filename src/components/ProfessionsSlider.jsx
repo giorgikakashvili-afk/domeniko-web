@@ -18,8 +18,17 @@ const ProfessionsSlider = () => {
       try {
         const response = await fetch('https://rost.ge/api/professions');
         const result = await response.json();
-        // ვიღებთ მონაცემებს "data" მასივიდან [cite: 22, 23]
-        setProfessions(result.data);
+
+        if (result.data && Array.isArray(result.data)) {
+          // მასივის ასარევი ლოგიკა (Shuffling)
+          const shuffled = [...result.data]; // ორიგინალი რომ არ დაზიანდეს
+          for (let i = shuffled.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+          }
+
+          setProfessions(shuffled);
+        }
       } catch (error) {
         console.error("Error fetching professions:", error);
       } finally {
@@ -54,8 +63,8 @@ const ProfessionsSlider = () => {
 
       <div className="max-w-8xl mx-auto flex flex-col lg:flex-row gap-8 lg:gap-12">
         <div className="lg:w-1/3 flex flex-col justify-center items-center lg:items-start text-center lg:text-left">
-          <h2 className="text-4xl md:text-6xl font-black text-[#0A0521] uppercase [font-variant-caps:all-petite-caps] mb-0 lg:mb-12 leading-tight">
-            გაიცანი<br className="hidden lg:block" /> შენი <br className="hidden lg:block" /> მომავალი<br className="hidden lg:block" /> პროფესია
+          <h2 className="text-3xl md:text-7xl font-black text-[#0A0521] uppercase [font-variant-caps:all-petite-caps] mb-0 lg:mb-12 leading-tight">
+            შენ<br className="hidden lg:block" /> აქ <br className="hidden lg:block" /> გაიცნობ<br className="hidden lg:block" /> პროფესიებს
           </h2>
 
           <Link

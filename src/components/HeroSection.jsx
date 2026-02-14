@@ -1,21 +1,52 @@
 import React, { useState, useEffect } from 'react';
 import mainBg from '../assets/main_img/main-bg.png';
 import mainBgMobile from '../assets/main_img/main-bgMobile.png';
-import { ArrowUpRight, Users, Briefcase, Presentation, UserStar } from 'lucide-react';
+import { ArrowUpRight, Users, Briefcase, Presentation, UserStar, Clock } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
   const [loaded, setLoaded] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const navigate = useNavigate();
+
+  const calculateTimeLeft = () => {
+    const targetDate = new Date('2026-03-01T00:00:00');
+    const now = new Date();
+    const difference = targetDate - now;
+    if (difference > 0) {
+      return {
+        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
+        hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
+        minutes: Math.floor((difference / 1000 / 60) % 60),
+        seconds: Math.floor((difference / 1000) % 60)
+      };
+    }
+    return null;
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   useEffect(() => {
     setLoaded(true);
+    const token = localStorage.getItem('token');
+    setIsLoggedIn(!!token);
+
+    const timer = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(timer);
   }, []);
 
   const stats = [
     { label: 'მოსწავლე და აბიტურიენტი', value: '6000+', icon: <Users size={28} /> },
     { label: 'პოპულარული პროფესიები', value: '36+', icon: <Briefcase size={28} /> },
-    { label: 'საჯარო ლექცია', value: '64+', icon: <Presentation size={28} /> },
-    { label: 'პროფესიონალი მენტორი', value: '264+', icon: <UserStar size={28} /> },
+    { label: 'Live შეხვედრა', value: '240+', icon: <Presentation size={28} /> },
+    { label: 'პროფესიონალი მენტორი', value: '100+', icon: <UserStar size={28} /> },
   ];
+
+  // პირობა, რომელიც განსაზღვრავს, ტაიმერის რეჟიმში ვართ თუ არა
+  const showTimer = isLoggedIn && timeLeft;
 
   return (
     <section
@@ -26,23 +57,13 @@ const HeroSection = () => {
       }}
     >
       <style>{`
-        section {
-          background-image: var(--bg-mobile);
-        }
-        @media (min-width: 768px) {
-          section {
-            background-image: var(--bg-desktop);
-          }
-        }
-        .apple-blur {
-          -webkit-backdrop-filter: blur(20px);
-          backdrop-filter: blur(20px);
-        }
+        section { background-image: var(--bg-mobile); }
+        @media (min-width: 768px) { section { background-image: var(--bg-desktop); } }
+        .apple-blur { -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); }
       `}</style>
 
       <div className="absolute inset-0 bg-black/10"></div>
 
-      {/* სათაურის და ღილაკის ბლოკი */}
       <div className="relative z-10 text-center px-4 mt-6 md:-mt-20">
         <h1 className={`font-noto [font-variant-caps:all-petite-caps] text-[#ffe4d1] text-[32px] xs:text-4xl md:text-7xl font-black max-w-4xl leading-tight transition-all duration-1000 delay-100 
           ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
@@ -50,15 +71,28 @@ const HeroSection = () => {
         </h1>
 
         <button
-          className={`mt-10 md:mt-18 bg-[#f3713d] hover:bg-[#d95f2d] text-white md:text-[20px] pr-3 py-2 pl-8 rounded-full flex items-center gap-5 mx-auto font-bold shadow-sm shadow-white border transition-all duration-700 delay-500 hover:delay-0 font-noto ${loaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}`} >
-          შემოუერთდი დომენიკოს
-          <div className='w-11 h-11 rounded-full bg-white text-black flex justify-center items-center transition-transform duration-300'>
-            <ArrowUpRight size={25} />
-          </div>
+          onClick={() => navigate(isLoggedIn ? '/dashboard' : '/login')}
+          className={`mt-10 md:mt-18 bg-[#f3713d] hover:bg-[#d95f2d] text-white md:text-[20px] rounded-full flex items-center justify-center mx-auto font-bold shadow-sm shadow-white border transition-all duration-700 delay-500 hover:delay-0 font-noto 
+            ${loaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}
+            ${showTimer ? 'px-8 py-[13px] min-w-[280px] md:min-w-[320px]' : 'pl-8 pr-3 py-2'}
+          `}
+        >
+          {showTimer ? (
+            <div className="flex items-center gap-3 tabular-nums">
+              <Clock size={20} />
+              <span>{timeLeft.days}დ : {timeLeft.hours}ს : {timeLeft.minutes}წ : {timeLeft.seconds}წმ</span>
+            </div>
+          ) : (
+            <>
+              შემოუერთდი დომენიკოს
+              <div className='w-11 h-11 rounded-full bg-white text-black flex justify-center items-center transition-transform duration-300 ml-5'>
+                <ArrowUpRight size={25} />
+              </div>
+            </>
+          )}
         </button>
       </div>
 
-      {/* STATS BAR */}
       <div className={`relative md:absolute bottom-0 md:bottom-6 xl:bottom-10 w-full px-4 md:px-7 z-20 mt-12 md:mt-0 transition-all duration-1000 delay-700
         ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
 
@@ -80,8 +114,6 @@ const HeroSection = () => {
                   <div className="text-white text-lg md:text-2xl xl:text-4xl font-black leading-none font-noto">
                     {stat.value}
                   </div>
-
-                  {/* დავამატე text-white და font-notო */}
                   <div className=" font-noto [font-variant-caps:all-petite-caps] text-[13px] md:text-lg xl:text-xl font-black mt-0.5 uppercase tracking-tight leading-[1.1] whitespace-normal">
                     {stat.label}
                   </div>

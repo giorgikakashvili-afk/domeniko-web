@@ -33,16 +33,10 @@ const Header = () => {
 
         {/* დესკტოპ ნავიგაცია - უცვლელია */}
         <nav className="hidden xl:flex items-center gap-8 font-medium text-[#0A0521] text-sm">
-          <Link to="/about" className="flex items-center gap-1 hover:text-[#f3713d] transition-colors">
-            <span>ჩვენ შესახებ</span>
-            <svg className="w-4 h-4 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
-            </svg>
-          </Link>
-          <Link to="/calendar" className="hover:text-[#f3713d] transition-colors">კალენდარი</Link>
+          <Link to="/about" className="flex items-center gap-1 hover:text-[#f3713d] transition-colors">როგორ მუშაობს</Link>
+          <Link to="/calendar" className="hover:text-[#f3713d] transition-colors">დომენიკოს კალენდარი</Link>
           <Link to="/professions" className="hover:text-[#f3713d] transition-colors">პროფესიები</Link>
           <Link to="/tests" className="hover:text-[#f3713d] transition-colors">ტესტირება</Link>
-          <Link to="/part" className="hover:text-[#f3713d] transition-colors">პარტნიორები</Link>
         </nav>
 
         {/* ავტორიზაციის / პროფილის ბლოკი */}
@@ -71,7 +65,7 @@ const Header = () => {
             </div>
           ) : (
             <button 
-              onClick={() => navigate('/register')}
+              onClick={() => navigate('/login')}
               className="flex w-auto xl:w-88.5 h-10 xl:h-14 bg-[#ffe4d1] rounded-full border border-[#f3713d] justify-center gap-2 items-center hover:bg-[#ffd8bc] transition-all cursor-pointer py-2 px-2 md:py-6 md:px-5 xl:py-2 xl:px-4 shrink-0"
             >
               <span className="font-black text-xs md:text-sm xl:text-xl [font-variant-caps:all-petite-caps] tracking-wide">
@@ -127,7 +121,7 @@ const Header = () => {
             </button>
           ) : (
             <Link 
-              to="/register" 
+              to="/login" 
               className="bg-[#f3713d] text-white px-10 py-3 rounded-full font-black uppercase italic tracking-tighter shadow-lg shadow-orange-200" 
               onClick={() => setIsOpen(false)}
             >

@@ -84,9 +84,9 @@ const Slider = () => {
     font-size: 22px;
     z-index: 40;
     text-shadow: 
-      0 4px 15px rgba(0,0,0,0.8),
+      0 4px 15px rgba(0,0,0,0.1),
       0 2px 8px rgba(243, 113, 61, 0.6),
-      0 0 30px rgba(0,0,0,0.5);
+      0 0 30px rgba(0,0,0,0.1);
     letter-spacing: 4px;
     transition: all 0.5s ease;
     text-transform: uppercase;
@@ -250,6 +250,8 @@ const Slider = () => {
   }
 `}</style>
 
+
+
       <div className="slider-wrapper">
         <Swiper
           modules={[Navigation, EffectCreative, Parallax]}
@@ -268,12 +270,15 @@ const Slider = () => {
             prev: {
               translate: ['-20%', 0, -120],
               scale: 0.88,
-              opacity: 0.5,
+              opacity: 0.6,
+              shadow: false,
+
             },
             next: {
               translate: ['20%', 0, -120],
               scale: 0.88,
-              opacity: 0.5,
+              opacity: 0.6,
+              shadow: false,
             },
           }}
           className="main-swiper"
