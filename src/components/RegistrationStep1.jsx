@@ -103,7 +103,7 @@ const RegistrationStep1 = ({ onNext }) => {
           <button
             type="button"
             onClick={() => navigate('/login')}
-            className="text-[#f3713d] font-black uppercase text-lg border-b-2 border-[#f3713d] pb-0.5 hover:opacity-70 transition-all"
+            className="text-[#f3713d] font-black uppercase text-lg pb-0.5 hover:opacity-70 transition-all"
           >
             გაიარე ავტორიზაცია
           </button>

@@ -50,7 +50,7 @@ const HeroSection = () => {
 
   return (
     <section
-      className={`relative min-h-[70dvh] md:min-h-[80dvh] xl:min-h-200 flex flex-col items-center justify-between md:justify-center pt-24 pb-12 md:py-30 overflow-hidden md:mx-5.5 xl:mx-5.5 rounded-b-[40px] md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'} bg-cover bg-center font-noto`}
+      className={`relative min-h-[70dvh] md:min-h-[80dvh] xl:min-h-180 flex flex-col items-center justify-between md:justify-center pt-24 pb-12 md:py-30 overflow-hidden md:mx-5.5 xl:mx-5.5 rounded-b-[40px] md:rounded-3xl transition-all duration-1000 ${loaded ? 'opacity-100' : 'opacity-0'} bg-cover bg-center font-noto`}
       style={{
         '--bg-desktop': `url(${mainBg})`,
         '--bg-mobile': `url(${mainBgMobile})`
@@ -64,7 +64,7 @@ const HeroSection = () => {
 
       <div className="absolute inset-0 bg-black/10"></div>
 
-      <div className="relative z-10 text-center px-4 mt-6 md:-mt-20">
+      <div className="relative z-10 text-center px-4 mt-6 md:-mt-50">
         <h1 className={`font-noto [font-variant-caps:all-petite-caps] text-[#ffe4d1] text-[32px] xs:text-4xl md:text-7xl font-black max-w-4xl leading-tight transition-all duration-1000 delay-100 
           ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
           გზამკვლევი შენი <br /> მომავალი “მე”-ს ძიებაში
@@ -74,7 +74,7 @@ const HeroSection = () => {
           onClick={() => navigate(isLoggedIn ? '/dashboard' : '/login')}
           className={`mt-10 md:mt-18 bg-[#f3713d] hover:bg-[#d95f2d] text-white md:text-[20px] rounded-full flex items-center justify-center mx-auto font-bold shadow-sm shadow-white border transition-all duration-700 delay-500 hover:delay-0 font-noto 
             ${loaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}
-            ${showTimer ? 'px-8 py-[13px] min-w-[280px] md:min-w-[320px]' : 'pl-8 pr-3 py-2'}
+            ${showTimer ? 'px-8 py-3.25 min-w-70 md:min-w-[320px]' : 'pl-8 pr-3 py-2'}
           `}
         >
           {showTimer ? (
@@ -93,7 +93,7 @@ const HeroSection = () => {
         </button>
       </div>
 
-      <div className={`relative md:absolute bottom-0 md:bottom-6 xl:bottom-10 w-full px-4 md:px-7 z-20 mt-12 md:mt-0 transition-all duration-1000 delay-700
+      <div className={`relative md:absolute bottom-0 md:bottom-6 xl:bottom-20 w-full px-4 md:px-7 z-20 mt-12 md:mt-0 transition-all duration-1000 delay-700
         ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-20 opacity-0'}`}>
 
         <div className="max-w-8xl mx-auto bg-white/40 backdrop-blur-xl py-6 md:py-8 xl:py-10 rounded-[35px] xl:rounded-4xl shadow-2xl border border-white apple-blur">

@@ -23,7 +23,7 @@ function App() {
 
         <Header />
 
-        <main className="grow">
+        <main className="grow relative">
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/professions" element={<ProfessionsPage />} />

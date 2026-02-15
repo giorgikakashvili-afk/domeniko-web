@@ -9,12 +9,11 @@ const Header = () => {
   const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
 
-  // ფუნქცია გამოსვლისთვის, რომელიც ასუფთავებს სტეიტს და გადამისამართებს
   const handleLogout = async () => {
     try {
       await logout();
-      setIsOpen(false); // ვხურავთ მენიუს (თუ მობილურზეა)
-      navigate('/'); // გადავდივართ მთავარზე
+      setIsOpen(false);
+      navigate('/');
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -22,25 +21,26 @@ const Header = () => {
 
   return (
     <div className="relative w-full font-noto md:mb-1">
-      <div className="bg-[#09002f] md:bg-[#fff4ec] w-full h-21 flex justify-between items-center mt-0 md:mt-6 px-4 xl:px-5">
+      {/* დაემატა relative კლასი მშობელ კონტეინერში */}
+      <div className="bg-[#09002f] md:bg-[#fff4ec] w-full h-21 flex justify-between items-center mt-0 md:mt-6 px-4 xl:px-5 relative">
 
-        {/* ლოგო - უცვლელია */}
-        <div className="bg-[#09002f] px-8 py-3 rounded-3xl">
+        {/* ლოგო - დაემატა z-10 რომ მენიუ არ გადაეფაროს */}
+        <div className="bg-[#09002f] px-8 py-3 rounded-3xl z-10">
           <Link to="/" className="h-full flex items-center">
             <img src={logo} alt="Domeniko Logo" className="h-13 object-contain shrink-0" />
           </Link>
         </div>
 
-        {/* დესკტოპ ნავიგაცია - უცვლელია */}
-        <nav className="hidden xl:flex items-center gap-8 font-medium text-[#0A0521] text-sm">
+        {/* დესკტოპ ნავიგაცია - განახლებული ცენტრირებისთვის */}
+        <nav className="hidden xl:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 font-medium text-[#0A0521] text-sm whitespace-nowrap">
           <Link to="/about" className="flex items-center gap-1 hover:text-[#f3713d] transition-colors">როგორ მუშაობს</Link>
           <Link to="/calendar" className="hover:text-[#f3713d] transition-colors">დომენიკოს კალენდარი</Link>
           <Link to="/professions" className="hover:text-[#f3713d] transition-colors">პროფესიები</Link>
           <Link to="/tests" className="hover:text-[#f3713d] transition-colors">ტესტირება</Link>
         </nav>
 
-        {/* ავტორიზაციის / პროფილის ბლოკი */}
-        <div className="flex items-center gap-2 md:gap-4">
+        {/* ავტორიზაციის / პროფილის ბლოკი - დაემატა z-10 */}
+        <div className="flex items-center gap-2 md:gap-4 z-10">
           
           {loading ? (
             <div className="w-8 h-8 border-4 border-[#f3713d] border-t-transparent rounded-full animate-spin"></div>
@@ -80,7 +80,7 @@ const Header = () => {
             </button>
           )}
 
-          {/* ჰამბურგერი - უცვლელია */}
+          {/* ჰამბურგერი */}
           <button
             className="xl:hidden p-1 transition-transform active:scale-90"
             onClick={() => setIsOpen(!isOpen)}
@@ -101,7 +101,7 @@ const Header = () => {
         </div>
       </div>
 
-      {/* მობილური მენიუ */}
+      {/* მობილური მენიუ - რჩება უცვლელი */}
       {isOpen && (
         <div className="absolute top-21 left-0 w-full bg-white z-[100] shadow-2xl flex flex-col items-center py-10 gap-6 xl:hidden animate-in slide-in-from-top duration-300">
           <Link to="/about" className="text-xl font-bold" onClick={() => setIsOpen(false)}>ჩვენ შესახებ</Link>

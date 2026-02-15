@@ -3,6 +3,10 @@ import { useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, ArrowUpRight, AlertCircle } from 'lucide-react';
 import { useAuth } from '../context/AuthContext'; 
 
+// ფოტოების იმპორტი
+import leftIllustration from '../assets/main_img/left-reg.png';
+import rightIllustration from '../assets/main_img/right-reg.png';
+
 const Login = () => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
@@ -53,9 +57,6 @@ const Login = () => {
 
         if (profileRes.ok) {
           const profileData = await profileRes.json();
-          
-          // --- გაფართოებული ლოგიკა ---
-          // ვამოწმებთ ყველა აუცილებელ ველს (სახელი, გვარი, სკოლა, კლასი)
           const isProfileComplete = 
             profileData.firstname && 
             profileData.lastname && 
@@ -63,10 +64,8 @@ const Login = () => {
             profileData.class;
 
           if (isProfileComplete) {
-            // თუ ყველაფერი შევსებულია, გადადის მთავარზე
             navigate('/dashboard');
           } else {
-            // თუ რომელიმე (მათ შორის მე-3 ეტაპი) აკლია, გადადის ფორმაზე
             navigate('/profileupdate');
           }
         } else {
@@ -86,10 +85,32 @@ const Login = () => {
     }
   };
 
-  // JSX ნაწილი რჩება უცვლელი (სტილი დაცულია)
   return (
-    <div className="min-h-screen bg-[#FFF8F1] flex flex-col items-center justify-center p-4 font-noto">
-      <div className="w-full max-w-115 z-10">
+    /* Register-ის მსგავსი მთავარი კონტეინერი */
+    <div className="relative isolate flex-1 min-h-[calc(100vh-80px)] w-full flex flex-col items-center justify-center py-10 md:py-20 overflow-hidden font-noto">
+      
+      {/* --- ფონური ელემენტები (Glow & Images) --- */}
+      <div className="absolute inset-0 pointer-events-none select-none" style={{ zIndex: -1 }}>
+        
+        {/* ვარდისფერი რგოლი */}
+        <div className="absolute bottom-[5%] right-[-5%] w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-[#ff99c0] opacity-50 blur-[100px] md:blur-[150px] rounded-full"></div>
+
+        {/* ზედა ნათება */}
+        <div className="absolute top-[-100px] left-[-100px] w-[300px] h-[300px] bg-[#f3713d] opacity-15 blur-[100px] rounded-full"></div>
+
+        {/* მარცხენა ილუსტრაცია */}
+        <div className="hidden xl:block absolute md:left-20 2xl:left-20 bottom-0">
+           <img src={leftIllustration} alt="" className="max-w-[400px] h-auto" />
+        </div>
+
+        {/* მარჯვენა ილუსტრაცია */}
+        <div className="hidden xl:block absolute right-10 top-1/2 -translate-y-1/2">
+          <img src={rightIllustration} alt="" className="max-w-[320px] h-auto" />
+        </div>
+      </div>
+
+      {/* --- ძირითადი კონტენტი (Login Form) --- */}
+      <div className="relative z-10 w-full max-w-115 px-4">
         <div className="text-center mb-10">
           <h1 className="text-[#0A0521] text-4xl md:text-5xl font-black mb-4 uppercase italic tracking-tighter">
             პროფილში შესვლა
@@ -160,7 +181,7 @@ const Login = () => {
           <p className="text-[#0A0521]/40 font-black text-[10px] uppercase mb-3">არ გაქვს ანგარიში?</p>
           <button 
             onClick={() => navigate('/register')}
-            className="text-[#f3713d] font-black text-sm uppercase border-b-2 border-[#f3713d] pb-1 hover:tracking-widest transition-all"
+            className="text-[#f3713d] font-black text-lg uppercase pb-1 hover:tracking-widest transition-all"
           >
             გაიარე რეგისტრაცია
           </button>
