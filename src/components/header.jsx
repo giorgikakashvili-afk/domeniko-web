@@ -1,13 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Menu, X, User, LogOut } from "lucide-react";
 import logo from '../assets/main_img/logo-dom.png';
 import { useAuth } from '../context/AuthContext';
+import WorkProcessModal from './WorkProcessModal';
+import HollandTestModal from './HollandTestModal'; // 1. შემოვიტანოთ ტესტის მოდალი
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isProcessOpen, setIsProcessOpen] = useState(false);
+  const [isHollandModalOpen, setIsHollandModalOpen] = useState(false); // 2. სტეიტი ტესტის მოდალისთვის
   const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    document.documentElement.style.scrollbarGutter = "stable";
+  }, []);
 
   const handleLogout = async () => {
     try {
@@ -19,29 +27,58 @@ const Header = () => {
     }
   };
 
+  // ტესტის დაწყების ფუნქცია მოდალიდან
+  const handleStartTest = () => {
+    setIsHollandModalOpen(false);
+    navigate('/tests');
+  };
+
   return (
     <div className="relative w-full font-noto md:mb-1">
-      {/* დაემატა relative კლასი მშობელ კონტეინერში */}
+      {/* მოდალების კომპონენტები */}
+      <WorkProcessModal 
+        isOpen={isProcessOpen} 
+        onClose={() => setIsProcessOpen(false)} 
+      />
+      
+      <HollandTestModal 
+        isOpen={isHollandModalOpen} 
+        onClose={() => setIsHollandModalOpen(false)}
+        onStart={handleStartTest}
+      />
+
       <div className="bg-[#09002f] md:bg-[#fff4ec] w-full h-21 flex justify-between items-center mt-0 md:mt-6 px-4 xl:px-5 relative">
 
-        {/* ლოგო - დაემატა z-10 რომ მენიუ არ გადაეფაროს */}
+        {/* ლოგო */}
         <div className="bg-[#09002f] px-8 py-3 rounded-3xl z-10">
           <Link to="/" className="h-full flex items-center">
             <img src={logo} alt="Domeniko Logo" className="h-13 object-contain shrink-0" />
           </Link>
         </div>
 
-        {/* დესკტოპ ნავიგაცია - განახლებული ცენტრირებისთვის */}
+        {/* დესკტოპ ნავიგაცია */}
         <nav className="hidden xl:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 font-medium text-[#0A0521] text-sm whitespace-nowrap">
-          <Link to="/about" className="flex items-center gap-1 hover:text-[#f3713d] transition-colors">როგორ მუშაობს</Link>
-          <Link to="/calendar" className="hover:text-[#f3713d] transition-colors">დომენიკოს კალენდარი</Link>
-          <Link to="/professions" className="hover:text-[#f3713d] transition-colors">პროფესიები</Link>
-          <Link to="/tests" className="hover:text-[#f3713d] transition-colors">ტესტირება</Link>
+          <button 
+            onClick={() => setIsProcessOpen(true)}
+            className="flex items-center gap-1 hover:text-[#f3713d] transition-colors font-bold cursor-pointer"
+          >
+            როგორ მუშაობს
+          </button>
+          
+          <Link to="/calendar" className="hover:text-[#f3713d] transition-colors font-bold">დომენიკოს კალენდარი</Link>
+          <Link to="/professions" className="hover:text-[#f3713d] transition-colors font-bold">პროფესიები</Link>
+          
+          {/* ჰოლანდის ტესტი - ახლა ხსნის მოდალს */}
+          <button 
+            onClick={() => setIsHollandModalOpen(true)}
+            className="hover:text-[#f3713d] transition-colors font-bold cursor-pointer outline-none"
+          >
+            ჰოლანდის ტესტი
+          </button>
         </nav>
 
-        {/* ავტორიზაციის / პროფილის ბლოკი - დაემატა z-10 */}
+        {/* ავტორიზაციის / პროფილის ბლოკი */}
         <div className="flex items-center gap-2 md:gap-4 z-10">
-          
           {loading ? (
             <div className="w-8 h-8 border-4 border-[#f3713d] border-t-transparent rounded-full animate-spin"></div>
           ) : user ? (
@@ -50,7 +87,7 @@ const Header = () => {
                 <User size={20} />
               </Link>
               <div className="hidden md:flex flex-col min-w-[80px]">
-                <span className="text-[10px] font-black opacity-50 uppercase leading-none">პროფილი</span>
+                <span className="text-[10px] font-black opacity-50 uppercase leading-none">პროფილები</span>
                 <span className="text-sm font-black text-[#0A0521] truncate max-w-[120px]">
                   {user.firstname || "მომხმარებელი"}
                 </span>
@@ -58,7 +95,6 @@ const Header = () => {
               <button 
                 onClick={handleLogout}
                 className="p-2 hover:bg-red-50 text-red-500 rounded-full transition-colors active:scale-90"
-                title="გამოსვლა"
               >
                 <LogOut size={18} />
               </button>
@@ -81,15 +117,10 @@ const Header = () => {
           )}
 
           {/* ჰამბურგერი */}
-          <button
-            className="xl:hidden p-1 transition-transform active:scale-90"
-            onClick={() => setIsOpen(!isOpen)}
-          >
-            {isOpen ? (
-              <X size={32} className="text-white md:text-[#09002f]" />
-            ) : (
+          <button className="xl:hidden p-1" onClick={() => setIsOpen(!isOpen)}>
+            {isOpen ? <X size={32} className="text-white md:text-[#09002f]" /> : (
               <div className="w-8 h-8">
-                <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <svg viewBox="0 0 100 100" fill="none">
                   <circle cx="28" cy="28" r="14" stroke="#f3713d" strokeWidth="10" />
                   <circle cx="75" cy="75" r="14" stroke="#f3713d" strokeWidth="10" />
                   <circle cx="75" cy="28" r="14" strokeWidth="10" stroke="currentColor" className="text-white md:text-[#09002f]" />
@@ -101,32 +132,23 @@ const Header = () => {
         </div>
       </div>
 
-      {/* მობილური მენიუ - რჩება უცვლელი */}
+      {/* მობილური მენიუ */}
       {isOpen && (
-        <div className="absolute top-21 left-0 w-full bg-white z-[100] shadow-2xl flex flex-col items-center py-10 gap-6 xl:hidden animate-in slide-in-from-top duration-300">
-          <Link to="/about" className="text-xl font-bold" onClick={() => setIsOpen(false)}>ჩვენ შესახებ</Link>
+        <div className="absolute top-21 left-0 w-full bg-white z-[100] shadow-2xl flex flex-col items-center py-10 gap-6 xl:hidden">
+          <button onClick={() => { setIsOpen(false); setIsProcessOpen(true); }} className="text-xl font-bold">როგორ მუშაობს</button>
           <Link to="/calendar" className="text-xl font-bold" onClick={() => setIsOpen(false)}>კალენდარი</Link>
           <Link to="/professions" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პროფესიები</Link>
-          <Link to="/tests" className="text-xl font-bold" onClick={() => setIsOpen(false)}>ტესტირება</Link>
-          <Link to="/part" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პარტნიორები</Link>
+          
+          <button 
+            className="text-xl font-bold" 
+            onClick={() => { setIsOpen(false); setIsHollandModalOpen(true); }}
+          >
+            ჰოლანდის ტესტი
+          </button>
           
           <div className="w-full px-10 h-[1px] bg-gray-100 my-2"></div>
-
-          {user ? (
-            <button 
-              onClick={handleLogout}
-              className="flex items-center gap-2 text-red-500 font-black text-xl uppercase italic"
-            >
-              <LogOut size={24} /> გამოსვლა
-            </button>
-          ) : (
-            <Link 
-              to="/login" 
-              className="bg-[#f3713d] text-white px-10 py-3 rounded-full font-black uppercase italic tracking-tighter shadow-lg shadow-orange-200" 
-              onClick={() => setIsOpen(false)}
-            >
-              რეგისტრაცია
-            </Link>
+          {!user && (
+            <Link to="/login" className="bg-[#f3713d] text-white px-10 py-3 rounded-full font-black uppercase italic" onClick={() => setIsOpen(false)}>რეგისტრაცია</Link>
           )}
         </div>
       )}

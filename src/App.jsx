@@ -12,6 +12,8 @@ import { AuthProvider } from './context/AuthContext';
 import Register from './pages/Register';
 import Login from './pages/Login';
 
+import SpeakersPage from './pages/SpeakersPage';
+
 import ProfileUpdate from './components/ProfileUpdate'; // შენი ფორმის გვერდი
 import Dashboard from './pages/Dashboard'; // შენი ტაიმერიანი გვერდი
 
@@ -36,6 +38,8 @@ function App() {
             {/* პროფილის შევსება და მოსაცდელი გვერდი */}
             <Route path="/profileupdate" element={<ProfileUpdate />} />
             <Route path="/Dashboard" element={<Dashboard />} />
+            
+            <Route path="/speakers" element={<SpeakersPage />} />
           </Routes>
         </main>
 

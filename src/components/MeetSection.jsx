@@ -2,22 +2,35 @@ import React, { useState, useEffect } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { ArrowRight, ArrowLeft, ArrowUpRight, Loader2 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import SpeakerModal from '../components/SpeakerModal'; 
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 
-const MeetSection = () => {
+const MeetSection = ({ professionId }) => { // დაემატა professionId props-ად
     const [mentors, setMentors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isEnd, setIsEnd] = useState(false);
+    const [selectedSpeakerId, setSelectedSpeakerId] = useState(null); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchSpeakers = async () => {
             try {
-                // მოთხოვნა სპიკერების API-ზე
                 const response = await fetch('https://rost.ge/api/speakers');
                 const result = await response.json();
-                setMentors(result.data); // ვინახავთ სპიკერებს
+                let allSpeakers = result.data || [];
+
+                // ფილტრაციის ლოგიკა: თუ professionId არსებობს, ვტოვებთ მხოლოდ იმ სპიკერებს, 
+                // რომლებსაც ეს პროფესია აქვთ მინიჭებული
+                if (professionId) {
+                    allSpeakers = allSpeakers.filter(speaker => 
+                        speaker.professions?.some(p => String(p.id) === String(professionId))
+                    );
+                }
+
+                setMentors(allSpeakers);
             } catch (error) {
                 console.error("Error fetching speakers:", error);
             } finally {
@@ -26,7 +39,7 @@ const MeetSection = () => {
         };
 
         fetchSpeakers();
-    }, []);
+    }, [professionId]); // ეფექტი თავიდან გაეშვება, თუ professionId შეიცვლება
 
     if (loading) {
         return (
@@ -36,8 +49,16 @@ const MeetSection = () => {
         );
     }
 
+    // თუ კონკრეტულ პროფესიაზე არცერთი სპიკერი არ არის, სექცია არ გამოჩნდეს
+    if (mentors.length === 0 && professionId) return null;
+
     return (
         <section className="py-16 px-4 md:px-10 xl:px-20 font-noto overflow-hidden">
+            <SpeakerModal 
+                speakerId={selectedSpeakerId} 
+                onClose={() => setSelectedSpeakerId(null)} 
+            />
+
             <style>{`
                 .is-fading {
                     -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
@@ -53,12 +74,17 @@ const MeetSection = () => {
 
             <div className="flex flex-col md:flex-row justify-between items-center mb-10 max-w-8xl mx-auto gap-4">
                 <h2 className="text-3xl md:text-7xl font-noto font-black text-[#2d1b4d] uppercase [font-variant-caps:all-petite-caps] leading-tight text-center md:text-left tracking-tight">
-                    ვის შეხვდები <br className="md:hidden" /> დომენიკოსთან ერთად
+                    {professionId ? "ამ პროფესიის სპიკერები" : "ვის შეხვდები დომენიკოსთან ერთად"}
                 </h2>
-                <button className="hidden md:flex items-center gap-2 bg-[#f3713d] text-white text-xl px-8 py-4 rounded-full font-black font-noto transition-all hover:scale-105 shadow-lg active:scale-95 uppercase [font-variant-caps:all-petite-caps]">
-                    ყველას ნახვა
-                    <ArrowUpRight size={20} />
-                </button>
+                {!professionId && (
+                    <button 
+                        onClick={() => navigate('/speakers')} 
+                        className="hidden md:flex items-center gap-2 bg-[#f3713d] text-white text-xl px-8 py-4 rounded-full font-black font-noto transition-all hover:scale-105 shadow-lg active:scale-95 uppercase [font-variant-caps:all-petite-caps]"
+                    >
+                        ყველას ნახვა
+                        <ArrowUpRight size={20} />
+                    </button>
+                )}
             </div>
 
             <div className="relative group max-w-8xl mx-auto">
@@ -84,7 +110,10 @@ const MeetSection = () => {
                 >
                     {mentors.map((mentor) => (
                         <SwiperSlide key={mentor.id} className="h-auto">
-                            <div className="bg-[#ffe4d1] rounded-[20px] p-5 flex flex-col h-full min-h-125 transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-[#f3713d]/30 group/card">
+                            <div 
+                                onClick={() => setSelectedSpeakerId(mentor.id)} 
+                                className="cursor-pointer bg-[#ffe4d1] rounded-[20px] p-5 flex flex-col h-full min-h-125 transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-[#f3713d]/30 group/card"
+                            >
 
                                 <div className="rounded-xl overflow-hidden mb-5 shrink-0 shadow-inner bg-white/20 relative aspect-square">
                                     <img
@@ -94,23 +123,22 @@ const MeetSection = () => {
                                     />
                                 </div>
 
-                                <div className="flex flex-col flex-1">
-                                    <h3 className="font-noto font-black text-xl mb-1 text-[#2d1b4d] uppercase [font-variant-caps:all-petite-caps] leading-tight min-h-[2.8rem] line-clamp-2">
+                                <div className="flex flex-col flex-1 font-noto">
+                                    <h3 className="font-black text-xl mb-1 text-[#2d1b4d] uppercase [font-variant-caps:all-petite-caps] leading-tight min-h-[2.8rem] line-clamp-2 italic">
                                         {mentor.name}
                                     </h3>
-                                    {/* გამოგვაქვს პროფესიები API-დან */}
-                                    <p className="font-noto text-[#f3713d] font-bold text-sm mb-3 leading-tight min-h-10 line-clamp-2 uppercase">
+                                    <p className="text-[#f3713d] font-bold text-sm mb-3 leading-tight min-h-10 line-clamp-2 uppercase italic">
                                         {mentor.professions?.map(p => p.name).join(', ') || "პროფესიონალი მენტორი"}
                                     </p>
-                                    <p className="font-noto text-[#4a4a4a] text-[13px] leading-relaxed line-clamp-4">
+                                    <p className="text-[#4a4a4a] text-[13px] leading-relaxed line-clamp-4 font-medium">
                                         {mentor.text}
                                     </p>
                                 </div>
 
                                 <div className="mt-6 flex items-center justify-start">
-                                    <button className="w-12 h-12 bg-[#f3713d] text-white rounded-full flex items-center justify-center transition-all duration-500 hover:bg-[#2d1b4d] hover:rotate-360 shadow-md">
+                                    <div className="w-12 h-12 bg-[#f3713d] text-white rounded-full flex items-center justify-center transition-all duration-500 group-hover/card:bg-[#2d1b4d] group-hover/card:rotate-45 shadow-md">
                                         <ArrowUpRight size={22} />
-                                    </button>
+                                    </div>
                                 </div>
                             </div>
                         </SwiperSlide>
@@ -126,12 +154,17 @@ const MeetSection = () => {
                 </button>
             </div>
 
-            <div className="flex justify-center md:hidden mt-10">
-                <button className="w-full font-noto font-black uppercase [font-variant-caps:all-petite-caps] flex items-center justify-center gap-2 bg-[#f3713d] text-white px-6 py-5 rounded-full shadow-lg active:scale-95 transition-transform">
-                    ყველას ნახვა
-                    <ArrowUpRight size={20} />
-                </button>
-            </div>
+            {!professionId && (
+                <div className="flex justify-center md:hidden mt-10">
+                    <button 
+                        onClick={() => navigate('/speakers')} 
+                        className="w-full font-noto font-black uppercase [font-variant-caps:all-petite-caps] flex items-center justify-center gap-2 bg-[#f3713d] text-white px-6 py-5 rounded-full shadow-lg active:scale-95 transition-transform"
+                    >
+                        ყველას ნახვა
+                        <ArrowUpRight size={20} />
+                    </button>
+                </div>
+            )}
         </section>
     );
 };
