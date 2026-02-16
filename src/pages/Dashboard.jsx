@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LogOut, Clock } from 'lucide-react';
+import bgphoto from '../assets/main_img/followtodomenico.jpg';
 
 const Dashboard = () => {
   const [user, setUser] = useState(null);
@@ -50,7 +51,7 @@ const Dashboard = () => {
         {/* ზედა სურათის სექცია */}
         <div className="w-full h-[300px] md:h-[450px] relative">
           <img 
-            src="/path-to-your-illustration.jpg" // აქ ჩასვი შენი ფოტოს მისამართი
+            src={bgphoto} 
             alt="Domeniko Illustration" 
             className="w-full h-full object-cover"
           />
@@ -63,11 +64,11 @@ const Dashboard = () => {
             გამარჯობა, {user?.firstname || ''}
           </h1>
 
-          <div className="space-y-2 mb-10 text-[#0A0521] text-lg md:text-xl font-medium leading-relaxed max-w-2xl mx-auto">
-            <p>კეთილი იყოს შენი პირველი შეხვედრა დომენიკოსთან, ჩვენ ერთად აღმოვაჩენთ შესაძლებლობებს.</p>
-            <p className="font-black">დაელოდე პირველ კომუნიკაციას დომენიკოსგან.</p>
-            <p className="text-[#f3713d] font-black">შენს პროფილში პირველი ეტაპი 1 მარტს გაჩნდება</p>
-          </div>
+          <div className="space-y-2 mb-10 text-[#0A0521] text-lg font-medium max-w-2xl mx-auto">
+              <p>კეთილი იყოს შენი პირველი შეხვედრა დომენიკოსთან, ჩვენ ერთად აღმოვაჩენთ შესაძლებობებს.</p>
+              <p className="font-black">დაელოდე პირველ კომუნიკაციას დომენიკოსგან.</p>
+              <p className="text-[#f3713d] font-black uppercase text-sm">შენს პროფილში პირველი ეტაპი 1 მარტს გაჩნდება.</p>
+            </div>
 
           {/* ტაიმერის ღილაკი (Capsule) */}
           <div className="inline-flex items-center gap-3 border-2 border-[#f3713d]/30 px-8 py-4 rounded-full bg-orange-50/30 shadow-sm">

@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Eye, EyeOff, AlertCircle, X } from 'lucide-react';
+import { Eye, EyeOff, AlertCircle, X, Check } from 'lucide-react';
 
 const RegistrationStep2 = ({ phone, onComplete }) => {
   const [code, setCode] = useState(['', '', '', '']);
@@ -16,7 +16,7 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
   const [passError, setPassError] = useState('');
   const [termsAccepted, setTermsAccepted] = useState(false);
   
-  // მოდალის სახელმწიფო
+  const [showConsentModal, setShowConsentModal] = useState(false);
   const [showTermsModal, setShowTermsModal] = useState(false);
   const [hasOpenedTerms, setHasOpenedTerms] = useState(false);
 
@@ -54,9 +54,12 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
     }
   };
 
-  const isFilled = code.every(digit => digit !== '') && password !== '' && passwordConfirm !== '' && termsAccepted;
+  const isFilled = code.every(digit => digit !== '') && 
+                   password !== '' && 
+                   passwordConfirm !== '' && 
+                   termsAccepted;
 
-  const handleRegister = async (e) => {
+  const handleRegisterAttempt = (e) => {
     e.preventDefault();
     setPassError('');
     setCodeError('');
@@ -70,6 +73,11 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
       return;
     }
 
+    setShowConsentModal(true);
+  };
+
+  const executeRegistration = async (communicationValue) => {
+    setShowConsentModal(false);
     setLoading(true);
     try {
       const response = await fetch('https://rost.ge/api/verify-otp-register', {
@@ -79,7 +87,8 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
           phone,
           code: code.join(''),
           password,
-          password_confirmation: passwordConfirm
+          password_confirmation: passwordConfirm,
+          communication: communicationValue
         })
       });
 
@@ -99,11 +108,48 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
 
   return (
     <div className="flex flex-col items-center justify-center font-noto">
+      
+      {/* --- თანხმობის ფანჯარა (Consent Modal) --- */}
+      {showConsentModal && (
+        <div className="fixed inset-0 z-[500] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm animate-in fade-in duration-300">
+          <div className="bg-white w-full max-w-[580px] rounded-[40px] p-10 md:p-14 text-left shadow-2xl relative">
+            <h3 className="text-[#0A0521] text-2xl md:text-3xl font-black mb-6 leading-tight">
+              გსურს, რომ არასდროს გამოგრჩეს შენთვის მნიშვნელოვანი სიახლეები დომენიკოსგან?
+            </h3>
+            <p className="text-[#0A0521] text-[14px] md:text-[15px] leading-relaxed mb-10 font-medium opacity-90">
+              ვადასტურებ, რომ თანახმა ვარ, ააიპ დომენიკოსგან (ს/კ 764654752) მივიღო ინფორმაცია სიახლეების, ტესტების და მისი შედეგების, ონლაინ შეხვედრების, ვორქშოფების და სპეციალური შეთავაზებების შესახებ ელექტრონული ფოსტის, SMS-ის ან სხვა საკომუნიკაციო არხების მეშვეობით. მე გაცნობიერებული მაქვს, რომ ნებისმიერ დროს შემიძლია თანხმობის გამოხმობა.
+            </p>
+
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <button 
+                onClick={() => executeRegistration(0)}
+                className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-full border-2 border-[#F1E9E9] text-[#0A0521] font-bold text-sm hover:bg-gray-50 transition-all"
+              >
+                <div className="w-6 h-6 rounded-full bg-[#A8A3B9] flex items-center justify-center text-white">
+                  <Check size={14} strokeWidth={4} />
+                </div>
+                არ ვეთანხმები
+              </button>
+              
+              <button 
+                onClick={() => executeRegistration(1)}
+                className="flex-1 flex items-center justify-center gap-3 px-8 py-4 rounded-full bg-[#39a935] text-white font-bold text-sm hover:bg-[#2e8b2a] transition-all shadow-lg shadow-green-200"
+              >
+                <div className="w-6 h-6 rounded-full bg-black/10 flex items-center justify-center text-white">
+                  <Check size={14} strokeWidth={4} />
+                </div>
+                ვეთანხმები
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       <h1 className="text-[#0A0521] text-4xl md:text-5xl font-black mb-10 text-center tracking-tight leading-tight uppercase">
         შემოუერთდი <br /> დომენიკოს
       </h1>
 
-      <form onSubmit={handleRegister} className="w-full max-w-[480px] space-y-7">
+      <form onSubmit={handleRegisterAttempt} className="w-full max-w-[480px] space-y-7">
         
         {/* SMS სექცია */}
         <div className="space-y-3">
@@ -117,9 +163,7 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
                 canResend ? 'text-[#f3713d] cursor-pointer' : 'text-gray-400'
               }`}
             >
-              {timeLeft > 0 
-                ? `0:${timeLeft < 10 ? `0${timeLeft}` : timeLeft} ახალი კოდის მოთხოვნა` 
-                : "კოდის ხელახლა გაგზავნა"} ↺
+              {timeLeft > 0 ? `0:${timeLeft < 10 ? `0${timeLeft}` : timeLeft} ახალი კოდის მოთხოვნა` : "კოდის ხელახლა გაგზავნა"} ↺
             </button>
           </div>
           
@@ -142,9 +186,7 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
                   }
                 }}
                 onKeyDown={(e) => {
-                  if (e.key === 'Backspace' && !code[index] && index > 0) {
-                    inputRefs.current[index - 1].focus();
-                  }
+                  if (e.key === 'Backspace' && !code[index] && index > 0) inputRefs.current[index - 1].focus();
                 }}
                 className={`w-full aspect-square text-center text-3xl font-bold bg-white rounded-2xl shadow-sm outline-none border-2 transition-all
                   ${codeError ? 'border-red-500 bg-red-50 text-red-600' : 'border-transparent focus:border-[#f3713d]/20 text-[#0A0521]'}
@@ -164,7 +206,6 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
           </div>
 
           <div className="space-y-2">
-            {/* პაროლი 1 */}
             <div className="relative">
               <label className="absolute left-6 top-2 text-[8px] font-bold text-gray-400 uppercase z-10">პაროლი</label>
               <input
@@ -181,7 +222,6 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
               </button>
             </div>
 
-            {/* პაროლი 2 */}
             <div className="relative">
               <label className="absolute left-6 top-2 text-[8px] font-bold text-gray-400 uppercase z-10">გაიმეორე პაროლი</label>
               <input
@@ -201,7 +241,7 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
           {passError && <p className="text-red-500 text-[10px] font-bold px-2 italic flex items-center gap-1"><AlertCircle size={12} /> {passError}</p>}
         </div>
 
-        {/* წესები და პირობები - დაცული ჩეკბოქსი */}
+        {/* წესები და პირობები */}
         <div className="flex items-start gap-4 px-2">
           <div 
             onClick={() => hasOpenedTerms && setTermsAccepted(!termsAccepted)}
@@ -220,16 +260,12 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
           </p>
         </div>
 
-        {/* რეგისტრაციის ღილაკი */}
         <div className="flex justify-center pt-4">
           <button
             type="submit"
             disabled={!isFilled || loading}
             className={`pl-10 pr-4 py-4 rounded-full flex items-center gap-5 transition-all duration-500 shadow-xl
-              ${isFilled 
-                ? 'bg-[#f3713d] hover:bg-[#e66330] scale-105 active:scale-95' 
-                : 'bg-[#777777] opacity-80 cursor-not-allowed'
-              }`}
+              ${isFilled ? 'bg-[#f3713d] hover:bg-[#e66330] scale-105 active:scale-95' : 'bg-[#777777] opacity-80 cursor-not-allowed'}`}
           >
             <span className="font-black text-xl uppercase tracking-wider text-white">
               {loading ? 'მუშავდება...' : 'რეგისტრაცია'}
@@ -243,25 +279,22 @@ const RegistrationStep2 = ({ phone, onComplete }) => {
         </div>
       </form>
 
-      {/* წესების მოდალური ფანჯარა */}
+      {/* --- წესების და პირობების მოდალი (თქვენი ტექსტით) --- */}
       {showTermsModal && (
-        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-[#0A0521]/60 backdrop-blur-sm">
+        <div className="fixed inset-0 z-[600] flex items-center justify-center p-4 bg-[#0A0521]/60 backdrop-blur-sm">
           <div className="bg-white w-full max-w-2xl rounded-[40px] shadow-2xl flex flex-col relative overflow-hidden animate-in fade-in zoom-in duration-300">
             <button onClick={() => setShowTermsModal(false)} className="absolute right-8 top-8 p-2 hover:bg-gray-100 rounded-full transition-colors z-10">
               <X size={24} className="text-gray-400" />
             </button>
-            
             <div className="p-10 flex flex-col h-full max-h-[85vh]">
               <h2 className="text-3xl font-black text-[#0A0521] uppercase mb-8 pr-12 leading-tight">ვებ-გვერდის წესები და პირობები</h2>
-              
               <div className="overflow-y-auto pr-4 custom-scrollbar text-[15px] text-gray-600 font-medium leading-[1.8] space-y-6">
                 <p>დონემიკოსთან ერთად მონაწილეობა შეგიძლია მრავალ შეხვედრაში პროფესიონალებთან, რაც დაგეხმარება გაიგო შენი ინტერესები და როგორ შეიძლება ისინი შენი კარიერის საფუძველი გახდეს. ჩააბარე ჩვენი სწრაფი ტესტი და აღმოაჩინე, რომელი სფეროები შეიძლება იყოს შენთვის ყველაზე საინტერესო. შენი ახალი თავგადასავლები იწყება აქ! ნუ დააყოვნებ, დაიწყე დღესვე და მიაწვდე საკუთარ თავს ახალ გამოწვევებზე.</p>
                 <p>ჩვენი პროგრამა გთავაზობს უნიკალურ შესაძლებლობას, რომ შეხვდე სხვადასხვა სფეროს ექსპერტებს, რომლებიც მზად არიან გაგიზიარონ თავიანთი გამოცდილება და ცოდნა. შეხვედრები მოიცავს როგორც ინდივიდუალურ, ისე ჯგუფურ სესიებს, რაც საშუალებას გაძლევს, რომ უფრო ღრმად გაიგო, როგორ მუშაობს კონკრეტული ინდუსტრია და რა უნარები არის საჭირო წარმატებისთვის.</p>
                 <p>ჩვენი გუნდი მუდმივად მუშაობს იმისათვის, რომ უზრუნველყოს, რომ შეხვედრები იყოს ინტერაქტიული და საინტერესო. ჩვენ გვჯერა, რომ სწავლის პროცესში აქტიური მონაწილეობა არის ყველაზე ეფექტური გზა ახალი ცოდნის მიღებისა.</p>
-                <p>გარდა ამისა, ჩვენი პლატფორმა გთავაზობს სხვადასხვა რესურსებს, რომლებიც დაგეხმარება შენი კარიერის განვითარებაში. აქ encontrarás ვებსაიტები, ბლოგები და ვიდეოები, რომლებიც მოიცავს სხვადასხვა თემებს, როგორიცაა კარიერული ზრდა, პროფესიული უნარები და ინდუსტრიის ტენდენციები.</p>
+                <p>გარდა ამისა, ჩვენი პლატფორმა გთავაზობს სხვადასხვა რესურსებს, რომლებიც დაგეხმარება შენი კარიერის განვითარებაში. აქ ნახავთ ვებსაიტებს, ბლოგებს და ვიდეოებს, რომლებიც მოიცავს სხვადასხვა თემებს, როგორიცაა კარიერული ზრდა, პროფესიული უნარები და ინდუსტრიის ტენდენციები.</p>
                 <p>ჩვენი მიზანია, რომ გაწვდოთ ყველა საჭირო ინფორმაცია და ინსტრუმენტები, რათა წარმატებით შეძლოთ თქვენი კარიერის განვითარება. ნუ დააყოვნებთ, დაიწყეთ თქვენი ახალი თავგადასავალი დღესვე!</p>
               </div>
-
               <div className="pt-8 mt-auto border-t border-gray-100 flex justify-center">
                 <button 
                   onClick={() => { setTermsAccepted(true); setShowTermsModal(false); }}

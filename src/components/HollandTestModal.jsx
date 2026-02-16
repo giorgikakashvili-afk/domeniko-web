@@ -112,7 +112,7 @@ const HollandTestModal = ({ isOpen, onClose, onStart }) => {
         {/* Action Button */}
         <div className="p-6 md:p-8 bg-[#fff7ed] border-t border-orange-100 text-center shrink-0">
           <button 
-            onClick={onStart || onClose}
+            onClick={onClose}
             className="group bg-[#2d1b4d] text-white px-10 py-4 rounded-2xl font-black uppercase italic tracking-tighter hover:bg-[#f3713d] transition-all shadow-lg flex items-center gap-3 mx-auto active:scale-95"
           >
             ტესტის დაწყება 
