@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, ChevronRight, Loader2, ArrowLeft, Plus } from 'lucide-react';
+import { Calendar, Loader2, Plus } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 const CalendarPage = () => {
@@ -63,15 +63,16 @@ const CalendarPage = () => {
         <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
 
         {/* იასამნისფერი რგოლი - ზედა სექციისთვის */}
-        <div className="absolute top-150 md:top-120 -right-37 w-120 h-120 bg-purple-400/65 rounded-full blur-[120px]"></div>
+        <div className="absolute top-[150px] md:top-[120px] -right-[37px] w-[300px] h-[300px] md:w-[480px] md:h-[480px] bg-purple-400/65 rounded-full blur-[120px]"></div>
 
-        {/* ყვითელი რგოლი - სერვისების სექციის სიმაღლეზე (მაგალითად 1200px-ზე ზემოდან) */}
-        <div className="absolute top-350 md:top-250 -left-5 w-75 h-75 bg-yellow-300/65 rounded-full blur-[80px]"></div>
+        {/* ყვითელი რგოლი - სერვისების სექციის სიმაღლეზე */}
+        <div className="absolute top-[350px] md:top-[250px] -left-[20px] w-[200px] h-[200px] md:w-[300px] md:h-[300px] bg-yellow-300/65 rounded-full blur-[80px]"></div>
 
-        {/* სურვილისამებრ: მესამე რგოლი გვერდის ბოლოსკენ, რომ სიცარიელე არ დარჩეს */}
-        <div className="absolute bottom-125 right-0 w-105 h-105 bg-purple-400/65 rounded-full blur-[130px]"></div>
+        {/* მესამე რგოლი გვერდის ბოლოსკენ */}
+        <div className="absolute bottom-[125px] right-0 w-[320px] h-[320px] md:w-[420px] md:h-[420px] bg-purple-400/65 rounded-full blur-[130px]"></div>
       </div>
-      <div className="relative z-10"> {/* Content wrapper to stay above orbs */}
+
+      <div className="relative z-10">
         <div className="max-w-8xl mx-auto px-6 md:px-20 pt-12 pb-6">
           <div className="flex flex-wrap gap-2 mb-12">
             <button
