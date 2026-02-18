@@ -72,11 +72,11 @@ const NewsSlider = () => {
         {news.map((item) => (
           <SwiperSlide key={item.id} className="h-auto">
             <div className="bg-[#ffe4d1] rounded-[30px] p-4 flex flex-col md:flex-row gap-5 h-full transition-all duration-300 hover:-translate-y-2 border-2 border-transparent hover:border-[#f3713d]/30">
-              
+
               {/* ფოტოს ჩარჩო - სიმაღლე გაზრდილია 15%-ით (aspect-[3/4.2]) */}
               <div className="w-full md:w-48 lg:w-56 shrink-0 overflow-hidden rounded-[20px] bg-white/20 relative">
                 <div className="aspect-4/3 md:h-full w-full relative">
-                  <img 
+                  <img
                     src={item.image_url}
                     alt={item.name}
                     className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 hover:scale-110"
@@ -90,21 +90,22 @@ const NewsSlider = () => {
                   <h3 className="text-[#0f0a21] font-noto font-black text-lg md:text-xl leading-tight mb-2 uppercase [font-variant-caps:all-petite-caps] line-clamp-2 min-h-12">
                     {item.name}
                   </h3>
-                  <p className="text-[#0f0a21]/70 font-noto text-[13px] leading-relaxed line-clamp-3 md:line-clamp-4">
-                    {item.text}
-                  </p>
+                  <p
+                    className="text-[#0f0a21]/70 font-noto text-[13px] leading-relaxed line-clamp-3 md:line-clamp-4"
+                    dangerouslySetInnerHTML={{ __html: item.text }}
+                  />
                 </div>
 
                 <div className="mt-4 flex justify-between items-center">
-                   <span className="text-[11px] font-bold text-[#f3713d] uppercase opacity-70">
-                     {new Date(item.created_at).toLocaleDateString('ka-GE')}
-                   </span>
-                   <button className="w-10 h-10 bg-[#f3713d] text-white rounded-full flex items-center justify-center hover:bg-[#0f0a21] transition-colors">
-                     <ArrowUpRight size={18} />
-                   </button>
+                  <span className="text-[11px] font-bold text-[#f3713d] uppercase opacity-70">
+                    {new Date(item.created_at).toLocaleDateString('ka-GE')}
+                  </span>
+                  <button className="w-10 h-10 bg-[#f3713d] text-white rounded-full flex items-center justify-center hover:bg-[#0f0a21] transition-colors">
+                    <ArrowUpRight size={18} />
+                  </button>
                 </div>
               </div>
-              
+
             </div>
           </SwiperSlide>
         ))}

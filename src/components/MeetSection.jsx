@@ -3,7 +3,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation } from 'swiper/modules';
 import { ArrowRight, ArrowLeft, ArrowUpRight, Loader2 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import SpeakerModal from '../components/SpeakerModal'; 
+import SpeakerModal from '../components/SpeakerModal';
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -12,7 +12,7 @@ const MeetSection = ({ professionId }) => { // დაემატა professionI
     const [mentors, setMentors] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isEnd, setIsEnd] = useState(false);
-    const [selectedSpeakerId, setSelectedSpeakerId] = useState(null); 
+    const [selectedSpeakerId, setSelectedSpeakerId] = useState(null);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -25,7 +25,7 @@ const MeetSection = ({ professionId }) => { // დაემატა professionI
                 // ფილტრაციის ლოგიკა: თუ professionId არსებობს, ვტოვებთ მხოლოდ იმ სპიკერებს, 
                 // რომლებსაც ეს პროფესია აქვთ მინიჭებული
                 if (professionId) {
-                    allSpeakers = allSpeakers.filter(speaker => 
+                    allSpeakers = allSpeakers.filter(speaker =>
                         speaker.professions?.some(p => String(p.id) === String(professionId))
                     );
                 }
@@ -54,9 +54,9 @@ const MeetSection = ({ professionId }) => { // დაემატა professionI
 
     return (
         <section className="py-16 px-4 md:px-10 xl:px-20 font-noto overflow-hidden">
-            <SpeakerModal 
-                speakerId={selectedSpeakerId} 
-                onClose={() => setSelectedSpeakerId(null)} 
+            <SpeakerModal
+                speakerId={selectedSpeakerId}
+                onClose={() => setSelectedSpeakerId(null)}
             />
 
             <style>{`
@@ -77,8 +77,8 @@ const MeetSection = ({ professionId }) => { // დაემატა professionI
                     {professionId ? "ამ პროფესიის სპიკერები" : "ვის შეხვდები დომენიკოსთან ერთად"}
                 </h2>
                 {!professionId && (
-                    <button 
-                        onClick={() => navigate('/speakers')} 
+                    <button
+                        onClick={() => navigate('/speakers')}
                         className="hidden md:flex items-center gap-2 bg-[#f3713d] text-white text-xl px-8 py-4 rounded-full font-black font-noto transition-all hover:scale-105 shadow-lg active:scale-95 uppercase [font-variant-caps:all-petite-caps]"
                     >
                         ყველას ნახვა
@@ -110,8 +110,8 @@ const MeetSection = ({ professionId }) => { // დაემატა professionI
                 >
                     {mentors.map((mentor) => (
                         <SwiperSlide key={mentor.id} className="h-auto">
-                            <div 
-                                onClick={() => setSelectedSpeakerId(mentor.id)} 
+                            <div
+                                onClick={() => setSelectedSpeakerId(mentor.id)}
                                 className="cursor-pointer bg-[#ffe4d1] rounded-[20px] p-5 flex flex-col h-full min-h-125 transition-all duration-300 hover:shadow-xl border-2 border-transparent hover:border-[#f3713d]/30 group/card"
                             >
 
@@ -130,9 +130,10 @@ const MeetSection = ({ professionId }) => { // დაემატა professionI
                                     <p className="text-[#f3713d] font-bold text-sm mb-3 leading-tight min-h-10 line-clamp-2 uppercase italic">
                                         {mentor.professions?.map(p => p.name).join(', ') || "პროფესიონალი მენტორი"}
                                     </p>
-                                    <p className="text-[#4a4a4a] text-[13px] leading-relaxed line-clamp-4 font-medium">
-                                        {mentor.text}
-                                    </p>
+                                    <div
+                                        className="text-[#4a4a4a] leading-relaxed text-base md:text-lg font-medium pr-4 custom-scrollbar"
+                                        dangerouslySetInnerHTML={{ __html: mentor.text }}
+                                    />
                                 </div>
 
                                 <div className="mt-6 flex items-center justify-start">
@@ -156,8 +157,8 @@ const MeetSection = ({ professionId }) => { // დაემატა professionI
 
             {!professionId && (
                 <div className="flex justify-center md:hidden mt-10">
-                    <button 
-                        onClick={() => navigate('/speakers')} 
+                    <button
+                        onClick={() => navigate('/speakers')}
                         className="w-full font-noto font-black uppercase [font-variant-caps:all-petite-caps] flex items-center justify-center gap-2 bg-[#f3713d] text-white px-6 py-5 rounded-full shadow-lg active:scale-95 transition-transform"
                     >
                         ყველას ნახვა

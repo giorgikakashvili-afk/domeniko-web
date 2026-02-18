@@ -6,7 +6,7 @@ const SpeakersPage = () => {
     const [speakers, setSpeakers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
-    const [activeFilter, setActiveFilter] = useState('all'); 
+    const [activeFilter, setActiveFilter] = useState('all');
     const [selectedSpeakerId, setSelectedSpeakerId] = useState(null); // სტეიტი მოდალისთვის
 
     useEffect(() => {
@@ -27,7 +27,7 @@ const SpeakersPage = () => {
     const filteredSpeakers = speakers.filter(speaker => {
         const matchesSearch = speaker.name.toLowerCase().includes(searchQuery.toLowerCase());
         if (activeFilter === 'all') return matchesSearch;
-        
+
         const professions = speaker.professions || [];
         const hasHigher = professions.some(p => p.name.toLowerCase().includes('უმაღლეს'));
         const hasVocational = professions.some(p => p.name.toLowerCase().includes('პროფესიულ'));
@@ -47,32 +47,32 @@ const SpeakersPage = () => {
 
     return (
         <div className="min-h-screen bg-[#fff4ec] py-10 px-4 md:px-10 lg:px-20 font-noto">
-            
+
             {/* აქ ჩაჯდება მოდალი */}
-            <SpeakerModal 
-                speakerId={selectedSpeakerId} 
-                onClose={() => setSelectedSpeakerId(null)} 
+            <SpeakerModal
+                speakerId={selectedSpeakerId}
+                onClose={() => setSelectedSpeakerId(null)}
             />
 
             <div className="max-w-8xl mx-auto mb-12">
                 <h1 className="text-4xl md:text-7xl font-black text-[#2d1b4d] uppercase [font-variant-caps:all-petite-caps] mb-8 italic tracking-tighter">
                     ყველა სპიკერი
                 </h1>
-                
+
                 <div className="flex flex-wrap items-center gap-3 mb-8">
-                    <button 
+                    <button
                         onClick={() => setActiveFilter('all')}
                         className={`px-8 py-2 rounded-full font-black text-sm uppercase italic transition-all ${activeFilter === 'all' ? 'bg-[#f3713d] text-white' : 'bg-white text-[#2d1b4d] border border-gray-100 shadow-sm'}`}
                     >
                         ყველა
                     </button>
-                    <button 
+                    <button
                         onClick={() => setActiveFilter('higher')}
                         className={`px-6 py-2 rounded-full font-black text-sm uppercase italic transition-all shadow-sm ${activeFilter === 'higher' ? 'bg-[#f3713d] text-white' : 'bg-white text-[#2d1b4d] border border-gray-100'}`}
                     >
                         უმაღლესი განათლება
                     </button>
-                    <button 
+                    <button
                         onClick={() => setActiveFilter('vocational')}
                         className={`px-6 py-2 rounded-full font-black text-sm uppercase italic transition-all shadow-sm ${activeFilter === 'vocational' ? 'bg-[#f3713d] text-white' : 'bg-white text-[#2d1b4d] border border-gray-100'}`}
                     >
@@ -84,8 +84,8 @@ const SpeakersPage = () => {
                     <div className="absolute left-6 top-1/2 -translate-y-1/2 text-[#f3713d]">
                         <Search size={22} />
                     </div>
-                    <input 
-                        type="text" 
+                    <input
+                        type="text"
                         placeholder="მოძებნე შენი მენტორი..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
@@ -97,8 +97,8 @@ const SpeakersPage = () => {
             {filteredSpeakers.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-8xl mx-auto">
                     {filteredSpeakers.map((speaker) => (
-                        <div 
-                            key={speaker.id} 
+                        <div
+                            key={speaker.id}
                             onClick={() => setSelectedSpeakerId(speaker.id)} // დაჭერაზე ვაღებთ მოდალს
                             className="bg-[#ffe4d1] rounded-[20px] p-5 flex flex-col h-full cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 border-transparent hover:border-[#f3713d]/30 group/card"
                         >
@@ -117,9 +117,10 @@ const SpeakersPage = () => {
                                 <p className="font-noto text-[#f3713d] font-bold text-sm mb-3 leading-tight min-h-10 line-clamp-2 uppercase italic">
                                     {speaker.professions?.map(p => p.name).join(', ') || "პროფესიონალი მენტორი"}
                                 </p>
-                                <p className="font-noto text-[#4a4a4a] text-[13px] leading-relaxed line-clamp-4">
-                                    {speaker.text}
-                                </p>
+                                <div
+                                    className="text-[#4a4a4a] leading-relaxed text-base md:text-lg font-medium pr-4 custom-scrollbar"
+                                    dangerouslySetInnerHTML={{ __html: speaker.text }}
+                                />
                             </div>
 
                             <div className="mt-6 flex items-center justify-start">

@@ -30,14 +30,14 @@ const SpeakerModal = ({ speakerId, onClose }) => {
     };
 
     return (
-        <div 
+        <div
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-[#2d1b4d]/40 backdrop-blur-md transition-all duration-300"
             onClick={handleBackdropClick}
         >
             <div className="bg-white w-full max-w-6xl rounded-[40px] overflow-hidden relative shadow-2xl flex flex-col md:flex-row h-[90vh] md:h-auto max-h-[90dvh]">
-                
+
                 {/* დახურვის ღილაკი */}
-                <button 
+                <button
                     onClick={onClose}
                     className="absolute right-6 top-6 z-20 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all hover:rotate-90"
                 >
@@ -52,8 +52,8 @@ const SpeakerModal = ({ speakerId, onClose }) => {
                     <>
                         {/* მარცხენა მხარე - სურათი */}
                         <div className="md:w-5/12 h-[300px] md:h-auto relative bg-[#ffe4d1]">
-                            <img 
-                                src={speaker.image_url} 
+                            <img
+                                src={speaker.image_url}
                                 className="absolute inset-0 w-full h-full object-cover"
                                 alt={speaker.name}
                             />
@@ -67,25 +67,18 @@ const SpeakerModal = ({ speakerId, onClose }) => {
                             <p className="text-[#f3713d] font-black text-lg md:text-xl mb-8 uppercase italic">
                                 {speaker.professions?.map(p => p.name).join(', ') || "სპიკერი"}
                             </p>
-                            
-                            <div className="text-[#4a4a4a] leading-relaxed text-base md:text-lg whitespace-pre-line font-medium pr-4 custom-scrollbar">
-                                {speaker.text}
-                            </div>
 
-                            <div className="mt-10">
-                                <button 
-                                    onClick={onClose}
-                                    className="bg-[#2d1b4d] text-white px-8 py-4 rounded-full font-black flex items-center gap-3 hover:bg-[#f3713d] transition-all group"
-                                >
-                                    დახურვა
-                                    <ArrowUpRight size={20} className="group-hover:rotate-45 transition-transform" />
-                                </button>
-                            </div>
+                            <div
+                                className="text-[#4a4a4a] leading-relaxed text-base md:text-lg font-medium pr-4 custom-scrollbar"
+                                dangerouslySetInnerHTML={{ __html: speaker.text }}
+                            />
+
+                           
                         </div>
                     </>
                 )}
             </div>
-            
+
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
                 .custom-scrollbar::-webkit-scrollbar-track { bg: transparent; }

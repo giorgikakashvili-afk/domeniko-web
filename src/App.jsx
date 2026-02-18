@@ -7,6 +7,9 @@ import Home from './pages/home';
 import ProfessionsPage from './pages/Professions';
 import ProfessionSinglePage from './pages/ProfessionSinglePage';
 import { AuthProvider } from './context/AuthContext';
+import CalendarPage from './pages/CalendarPage';
+
+
 
 // ამ ორი ხაზის დამატება აუცილებელია!
 import Register from './pages/Register';
@@ -38,8 +41,10 @@ function App() {
             {/* პროფილის შევსება და მოსაცდელი გვერდი */}
             <Route path="/profileupdate" element={<ProfileUpdate />} />
             <Route path="/Dashboard" element={<Dashboard />} />
-            
+
             <Route path="/speakers" element={<SpeakersPage />} />
+            
+            <Route path="/calendar" element={<CalendarPage />} />
           </Routes>
         </main>
 
