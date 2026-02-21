@@ -40,7 +40,7 @@ const HeroSection = () => {
 
   const stats = [
     { label: 'მოსწავლე და აბიტურიენტი', value: '6000+', icon: <Users size={28} /> },
-    { label: 'პოპულარული პროფესიები', value: '36+', icon: <Briefcase size={28} /> },
+    { label: 'პოპულარული პროფესია', value: '36+', icon: <Briefcase size={28} /> },
     { label: 'Live შეხვედრა', value: '240+', icon: <Presentation size={28} /> },
     { label: 'პროფესიონალი მენტორი', value: '100+', icon: <UserStar size={28} /> },
   ];
@@ -67,7 +67,7 @@ const HeroSection = () => {
       <div className="relative z-10 text-center px-4 mt-6 md:-mt-50">
         <h1 className={`font-noto [font-variant-caps:all-petite-caps] text-[#ffe4d1] text-[32px] xs:text-4xl md:text-7xl font-black max-w-4xl leading-tight transition-all duration-1000 delay-100 
           ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          გზამკვლევი შენი <br /> მომავალი “მე”-ს ძიებაში
+          გაიცანი პროფესიები  <br /> იპოვე შენი
         </h1>
 
         <button

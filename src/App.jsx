@@ -8,6 +8,9 @@ import ProfessionsPage from './pages/Professions';
 import ProfessionSinglePage from './pages/ProfessionSinglePage';
 import { AuthProvider } from './context/AuthContext';
 import CalendarPage from './pages/CalendarPage';
+import NewsPage from './pages/NewsPage';
+import NewsDetail from './components/NewsDetail';
+import WorkProcessPage from './pages/WorkProcessPage';
 
 
 
@@ -45,6 +48,9 @@ function App() {
             <Route path="/speakers" element={<SpeakersPage />} />
             
             <Route path="/calendar" element={<CalendarPage />} />
+            <Route path="/news" element={<NewsPage />} />
+            <Route path="/news/:id" element={<NewsDetail />} />
+            <Route path="/how-it-works" element={<WorkProcessPage />} />
           </Routes>
         </main>
 

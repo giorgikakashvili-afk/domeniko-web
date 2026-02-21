@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { X, Loader2, ArrowUpRight } from 'lucide-react';
+import { X, Loader2 } from 'lucide-react';
 
 const SpeakerModal = ({ speakerId, onClose }) => {
     const [speaker, setSpeaker] = useState(null);
@@ -24,7 +24,6 @@ const SpeakerModal = ({ speakerId, onClose }) => {
 
     if (!speakerId) return null;
 
-    // ფუნქცია ფანჯრის გარეთ დაწკაპუნებაზე დასახურად
     const handleBackdropClick = (e) => {
         if (e.target === e.currentTarget) onClose();
     };
@@ -34,7 +33,8 @@ const SpeakerModal = ({ speakerId, onClose }) => {
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 md:p-6 bg-[#2d1b4d]/40 backdrop-blur-md transition-all duration-300"
             onClick={handleBackdropClick}
         >
-            <div className="bg-white w-full max-w-6xl rounded-[40px] overflow-hidden relative shadow-2xl flex flex-col md:flex-row h-[90vh] md:h-auto max-h-[90dvh]">
+            {/* აქ წავშალე h-[90vh] და დავტოვე ბუნებრივი სიმაღლე */}
+            <div className="bg-white w-full max-w-6xl rounded-[40px] overflow-hidden relative shadow-2xl flex flex-col md:flex-row max-h-[95vh]">
 
                 {/* დახურვის ღილაკი */}
                 <button
@@ -50,30 +50,30 @@ const SpeakerModal = ({ speakerId, onClose }) => {
                     </div>
                 ) : speaker && (
                     <>
-                        {/* მარცხენა მხარე - სურათი */}
-                        <div className="md:w-5/12 h-[300px] md:h-auto relative bg-[#ffe4d1]">
+                        {/* მარცხენა მხარე - სურათი (ის განსაზღვრავს სიმაღლეს) */}
+                        <div className="md:w-5/12 relative bg-[#ffe4d1] flex">
                             <img
                                 src={speaker.image_url}
-                                className="absolute inset-0 w-full h-full object-cover"
+                                className="w-full h-full object-cover block"
                                 alt={speaker.name}
                             />
                         </div>
 
-                        {/* მარჯვენა მხარე - ინფორმაცია */}
-                        <div className="md:w-7/12 p-8 md:p-14 overflow-y-auto flex flex-col font-noto">
-                            <h2 className="text-[#2d1b4d] font-black text-3xl md:text-5xl uppercase [font-variant-caps:all-petite-caps] mb-2 leading-tight italic">
-                                {speaker.name}
-                            </h2>
-                            <p className="text-[#f3713d] font-black text-lg md:text-xl mb-8 uppercase italic">
-                                {speaker.professions?.map(p => p.name).join(', ') || "სპიკერი"}
-                            </p>
+                        {/* მარჯვენა მხარე - ინფორმაცია (ის ერგება სურათის სიმაღლეს) */}
+                        <div className="md:w-7/12 p-8 md:p-14 overflow-y-auto flex flex-col font-noto bg-white">
+                            <div className="my-auto"> {/* ცენტრისთვის, თუ ტექსტი ცოტაა */}
+                                <h2 className="text-[#2d1b4d] font-black text-3xl md:text-5xl uppercase [font-variant-caps:all-petite-caps] mb-2 leading-tight italic">
+                                    {speaker.name}
+                                </h2>
+                                <p className="text-[#f3713d] font-black text-lg md:text-xl mb-8 uppercase italic">
+                                    {speaker.professions?.map(p => p.name).join(', ') || "სპიკერი"}
+                                </p>
 
-                            <div
-                                className="text-[#4a4a4a] leading-relaxed text-base md:text-lg font-medium pr-4 custom-scrollbar"
-                                dangerouslySetInnerHTML={{ __html: speaker.text }}
-                            />
-
-                           
+                                <div
+                                    className="text-[#4a4a4a] leading-relaxed text-base md:text-lg font-medium pr-4 custom-scrollbar"
+                                    dangerouslySetInnerHTML={{ __html: speaker.text }}
+                                />
+                            </div>
                         </div>
                     </>
                 )}
@@ -81,7 +81,7 @@ const SpeakerModal = ({ speakerId, onClose }) => {
 
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 4px; }
-                .custom-scrollbar::-webkit-scrollbar-track { bg: transparent; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
                 .custom-scrollbar::-webkit-scrollbar-thumb { background: #f3713d; border-radius: 10px; }
             `}</style>
         </div>

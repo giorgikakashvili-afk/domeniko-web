@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Menu, X, User, LogOut } from "lucide-react";
+import { X, User, LogOut } from "lucide-react";
 import logo from '../assets/main_img/logo-dom.png';
 import { useAuth } from '../context/AuthContext';
-import WorkProcessModal from './WorkProcessModal';
-import HollandTestModal from './HollandTestModal'; // 1. შემოვიტანოთ ტესტის მოდალი
+import HollandTestModal from './HollandTestModal';
 
 const Header = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [isProcessOpen, setIsProcessOpen] = useState(false);
-  const [isHollandModalOpen, setIsHollandModalOpen] = useState(false); // 2. სტეიტი ტესტის მოდალისთვის
+  const [isHollandModalOpen, setIsHollandModalOpen] = useState(false);
   const { user, logout, loading } = useAuth();
   const navigate = useNavigate();
 
@@ -27,22 +25,21 @@ const Header = () => {
     }
   };
 
-  // ტესტის დაწყების ფუნქცია მოდალიდან
   const handleStartTest = () => {
     setIsHollandModalOpen(false);
     navigate('/tests');
   };
 
+  // ნავიგაციის ლინკების სტილი (დესკტოპისთვის)
+  const navLinkStyle = "hover:text-[#f3713d] transition-colors font-bold";
+  // ნავიგაციის ლინკების სტილი (მობილურისთვის)
+  const mobileNavLinkStyle = "text-xl font-bold";
+
   return (
     <div className="relative w-full font-noto md:mb-1">
-      {/* მოდალების კომპონენტები */}
-      <WorkProcessModal 
-        isOpen={isProcessOpen} 
-        onClose={() => setIsProcessOpen(false)} 
-      />
-      
-      <HollandTestModal 
-        isOpen={isHollandModalOpen} 
+      {/* მხოლოდ ჰოლანდის ტესტის მოდალი დავტოვეთ */}
+      <HollandTestModal
+        isOpen={isHollandModalOpen}
         onClose={() => setIsHollandModalOpen(false)}
         onStart={handleStartTest}
       />
@@ -58,20 +55,19 @@ const Header = () => {
 
         {/* დესკტოპ ნავიგაცია */}
         <nav className="hidden xl:flex absolute left-1/2 -translate-x-1/2 items-center gap-8 font-medium text-[#0A0521] text-sm whitespace-nowrap">
-          <button 
-            onClick={() => setIsProcessOpen(true)}
-            className="flex items-center gap-1 hover:text-[#f3713d] transition-colors font-bold cursor-pointer"
-          >
+          {/* ღილაკი შეიცვალა Link-ით */}
+          <Link to="/how-it-works" className={navLinkStyle}>
             როგორ მუშაობს
-          </button>
-          
-          <Link to="/calendar" className="hover:text-[#f3713d] transition-colors font-bold">დომენიკოს კალენდარი</Link>
-          <Link to="/professions" className="hover:text-[#f3713d] transition-colors font-bold">პროფესიები</Link>
-          
-          {/* ჰოლანდის ტესტი - ახლა ხსნის მოდალს */}
-          <button 
+          </Link>
+
+          <Link to="/calendar" className={navLinkStyle}>კალენდარი</Link>
+          <Link to="/professions" className={navLinkStyle}>პროფესიები</Link>
+          <Link to="/speakers" className={navLinkStyle}>სპიკერები</Link>
+          <Link to="/news" className={navLinkStyle}>სიახლეები</Link>
+
+          <button
             onClick={() => setIsHollandModalOpen(true)}
-            className="hover:text-[#f3713d] transition-colors font-bold cursor-pointer outline-none"
+            className={`${navLinkStyle} cursor-pointer outline-none`}
           >
             ჰოლანდის ტესტი
           </button>
@@ -86,13 +82,13 @@ const Header = () => {
               <Link to="/dashboard" className="w-8 h-8 xl:w-10 xl:h-10 bg-[#f3713d] rounded-full flex justify-center items-center text-white hover:scale-105 transition-transform">
                 <User size={20} />
               </Link>
-              <div className="hidden md:flex flex-col min-w-[80px]">
-                <span className="text-[10px] font-black opacity-50 uppercase leading-none">პროფილები</span>
-                <span className="text-sm font-black text-[#0A0521] truncate max-w-[120px]">
+              <div className="hidden md:flex flex-col min-w-20">
+                <span className="text-[10px] font-black opacity-50 uppercase leading-none">პროფილი</span>
+                <span className="text-sm font-black text-[#0A0521] truncate max-w-30">
                   {user.firstname || "მომხმარებელი"}
                 </span>
               </div>
-              <button 
+              <button
                 onClick={handleLogout}
                 className="p-2 hover:bg-red-50 text-red-500 rounded-full transition-colors active:scale-90"
               >
@@ -100,15 +96,12 @@ const Header = () => {
               </button>
             </div>
           ) : (
-            <button 
+            <button
               onClick={() => navigate('/login')}
               className="flex w-auto xl:w-88.5 h-10 xl:h-14 bg-[#ffe4d1] rounded-full border border-[#f3713d] justify-center gap-2 items-center hover:bg-[#ffd8bc] transition-all cursor-pointer py-2 px-2 md:py-6 md:px-5 xl:py-2 xl:px-4 shrink-0"
             >
-              <span className="font-black text-xs md:text-sm xl:text-xl [font-variant-caps:all-petite-caps] tracking-wide">
-                <span className="xl:hidden inline-block text-base md:text-xl -translate-y-0.5 uppercase">რეგისტრაცია</span>
-                <span className="hidden xl:inline uppercase">
-                  რეგისტრაცია <span className="font-normal text-base opacity-50">|</span> ავტორიზაცია
-                </span>
+              <span className="font-black text-xs md:text-sm xl:text-xl [font-variant-caps:all-petite-caps] tracking-wide uppercase">
+                რეგისტრაცია <span className="hidden xl:inline font-normal text-base opacity-50">|</span> <span className="hidden xl:inline">ავტორიზაცია</span>
               </span>
               <div className="w-5 h-5 xl:w-8 xl:h-8 bg-[#f3713d] rounded-full shrink-0 flex justify-center items-center text-white">
                 <User size={22} />
@@ -134,22 +127,19 @@ const Header = () => {
 
       {/* მობილური მენიუ */}
       {isOpen && (
-        <div className="absolute top-21 left-0 w-full bg-white z-[100] shadow-2xl flex flex-col items-center py-10 gap-6 xl:hidden">
-          <button onClick={() => { setIsOpen(false); setIsProcessOpen(true); }} className="text-xl font-bold">როგორ მუშაობს</button>
-          <Link to="/calendar" className="text-xl font-bold" onClick={() => setIsOpen(false)}>კალენდარი</Link>
-          <Link to="/professions" className="text-xl font-bold" onClick={() => setIsOpen(false)}>პროფესიები</Link>
-          
-          <button 
-            className="text-xl font-bold" 
+        <div className="absolute top-21 left-0 w-full bg-white z-100 shadow-2xl flex flex-col items-center py-10 gap-6 xl:hidden">
+          <Link to="/how-it-works" className={mobileNavLinkStyle} onClick={() => setIsOpen(false)}>როგორ მუშაობს</Link>
+          <Link to="/calendar" className={mobileNavLinkStyle} onClick={() => setIsOpen(false)}>კალენდარი</Link>
+          <Link to="/professions" className={mobileNavLinkStyle} onClick={() => setIsOpen(false)}>პროფესიები</Link>
+          <Link to="/speakers" className={mobileNavLinkStyle} onClick={() => setIsOpen(false)}>სპიკერები</Link>
+          <Link to="/news" className={mobileNavLinkStyle} onClick={() => setIsOpen(false)}>სიახლეები</Link>
+
+          <button
+            className={mobileNavLinkStyle}
             onClick={() => { setIsOpen(false); setIsHollandModalOpen(true); }}
           >
             ჰოლანდის ტესტი
           </button>
-          
-          <div className="w-full px-10 h-[1px] bg-gray-100 my-2"></div>
-          {!user && (
-            <Link to="/login" className="bg-[#f3713d] text-white px-10 py-3 rounded-full font-black uppercase italic" onClick={() => setIsOpen(false)}>რეგისტრაცია</Link>
-          )}
         </div>
       )}
     </div>

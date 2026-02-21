@@ -2,21 +2,56 @@ import React from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, EffectCreative, Parallax } from 'swiper/modules';
 import { ArrowRight, ArrowLeft } from 'lucide-react';
+import { useNavigate } from 'react-router-dom'; // დამატებული იმპორტი
 
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/effect-creative';
 import 'swiper/css/parallax';
 
-import slbg from '../assets/main_img/slbg.jpg';
-import slbgMobile from '../assets/main_img/slbgMobile.png';
+// აქ დააიმპორტე შენი სხვადასხვა ფოტოები
+import slbg1 from '../assets/main_img/slbg1.jpg';
+import slbg2 from '../assets/main_img/slbg2.jpg';
+import slbg3 from '../assets/main_img/slbg.jpg';
+import slbg4 from '../assets/main_img/slbg4.jpg';
+
+import mBg1 from '../assets/main_img/slbg1.jpg';
+import mBg2 from '../assets/main_img/slbgMobile.png';
+import mBg3 from '../assets/main_img/slbgMobile.png';
+import mBg4 from '../assets/main_img/slbg4.jpg';
 
 const Slider = () => {
+  const navigate = useNavigate(); // ნავიგაციის ინიციალიზაცია
+
   const slides = [
-    { step: "ნაბიჯი 1", title: "მოგზაურობა საკუთარ თავში", desc: "ყველა გზა შენით იწყება. აღმოაჩინე ვინ ხარ, რისი კეთება გიყვარს და რაში ხარ ძლიერი." },
-    { step: "ნაბიჯი 2", title: "მოგზაურობა პროფესიათა სამყაროში", desc: "შეხვდი მათ, ვინც უკვე გაიარა ეს გზა, მოისმინე რეალური ისტორიები და დასვი შეკითხვები." },
-    { step: "ნაბიჯი 3", title: "მოგზაურობა განათლების სამყაროში", desc: "გაიცანი განათლების მიღების შესაძლებლობები, აირჩიე სად და როგორ მიიღო საჭირო ცოდნა." },
-    { step: "ნაბიჯი 4", title: "დომენიკო შენს გვერდით", desc: "დომენიკო არ გტოვებს მარტო. ყოველ ნაბიჯზე შენს გვერდით ვართ - ლამპრით, რომელიც გზას გინათებს." },
+    { 
+      step: "ნაბიჯი 1", 
+      title: "მოგზაურობა საკუთარ თავში", 
+      desc: "ყველა გზა შენით იწყება. აღმოაჩინე ვინ ხარ, რისი კეთება გიყვარს და რაში ხარ ძლიერი.",
+      desktopImg: slbg1,
+      mobileImg: mBg1 
+    },
+    { 
+      step: "ნაბიჯი 2", 
+      title: "მოგზაურობა პროფესიათა სამყაროში", 
+      desc: "შეხვდი მათ, ვინც უკვე გაიარა ეს გზა, მოისმინე რეალური ისტორიები და დასვი შეკითხვები.",
+      desktopImg: slbg2,
+      mobileImg: mBg2
+    },
+    { 
+      step: "ნაბიჯი 3", 
+      title: "მოგზაურობა განათლების სამყაროში", 
+      desc: "გაიცანი განათლების მიღების შესაძლებლობები, აირჩიე სად და როგორ მიიღო საჭირო ცოდნა.",
+      desktopImg: slbg3,
+      mobileImg: mBg3
+    },
+    { 
+      step: "ნაბიჯი 4", 
+      title: "დომენიკო შენს გვერდით", 
+      desc: "დომენიკო არ გტოვებს მარტო. ყოველ ნაბიჯზე შენს გვერდით ვართ - ლამპრით, რომელიც გზას გინათებს.",
+      desktopImg: slbg4,
+      mobileImg: mBg4
+    },
   ];
 
   return (
@@ -234,24 +269,17 @@ const Slider = () => {
     }
 
     .main-swiper .swiper-slide {
-      height: auto !important; /* მობილურზე სიმაღლე შიგთავსზეა დამოკიდებული */
-      opacity: 1 !important; /* მობილურზე ხშირად ჯობია opacity პრობლემების თავიდან ასაცილებლად */
-    }
-
-    .image-container {
-       height: 300px !important; /* სურათის სიმაღლე მობილურზე */
+      height: auto !important;
+      opacity: 1 !important;
     }
   }
 
-  /* --- დესკტოპის ფიქსირებული ზომები --- */
   @media (min-width: 768px) {
     .slider-wrapper { width: 1122px; height: 567px; }
     .main-swiper { height: 100%; }
     .main-swiper .swiper-slide { height: 100%; }
   }
 `}</style>
-
-
 
       <div className="slider-wrapper">
         <Swiper
@@ -273,7 +301,6 @@ const Slider = () => {
               scale: 0.88,
               opacity: 0.6,
               shadow: false,
-
             },
             next: {
               translate: ['20%', 0, -120],
@@ -290,16 +317,14 @@ const Slider = () => {
 
                 {/* სურათის ნაწილი */}
                 <div className="relative h-75 md:h-full w-full shrink-0 overflow-hidden rounded-[40px] md:rounded-none">
-                  {/* ეს გამოჩნდება მხოლოდ მობილურზე (Desktop-ზე დაიმალება) */}
                   <img
-                    src={slbgMobile}
+                    src={slide.mobileImg}
                     alt="Mobile Background"
                     className="bg-image w-full h-full object-cover md:hidden"
                     data-swiper-parallax="-100"
                   />
-                  {/* ეს გამოჩნდება მხოლოდ Desktop-ზე (მობილურზე დაიმალება) */}
                   <img
-                    src={slbg}
+                    src={slide.desktopImg}
                     alt="Desktop Background"
                     className="bg-image w-full h-[90%] object-cover hidden md:block"
                     data-swiper-parallax="-100"
@@ -313,48 +338,42 @@ const Slider = () => {
                   <div className="flex justify-center md:justify-end w-full">
                     <div className="w-full md:w-1/2 flex flex-col items-start text-left ">
 
-                      {/* ნაბიჯი და ისრები - მობილურზე ერთ ხაზზე */}
                       <div className="flex items-center justify-between md:justify-start w-full gap-4 mb-4">
-                        {/* მარცხენა ისარი (მხოლოდ მობილურზე ჩანს) */}
                         <button className="custom-prev md:hidden w-10 h-10 bg-white/20 border border-white/30 rounded-full flex items-center justify-center shrink-0 active:scale-90">
                           <ArrowLeft size={18} />
                         </button>
-
                         <span className="slide-content-item text-white md:text-[#f3713d] font-bold block text-xl mb-0">
                           {slide.step}
                         </span>
-
-                        {/* მარჯვენა ისარი (მხოლოდ მობილურზე ჩანს) */}
                         <button className="custom-next md:hidden w-10 h-10 bg-white/20 border border-white/30 rounded-full flex items-center justify-center shrink-0 active:scale-90">
                           <ArrowRight size={18} />
                         </button>
                       </div>
 
-                      {/* სათაური */}
-                      <h2 className="slide-content-item text-3xl md:text-6xl  text-black md:text-white font-black mb-6 md:mb-8 drop-shadow-lg uppercase [font-variant-caps:all-petite-caps]">
+                      <h2 className="slide-content-item text-3xl md:text-6xl text-black md:text-white font-black mb-6 md:mb-8 drop-shadow-lg uppercase [font-variant-caps:all-petite-caps]">
                         {slide.title}
                       </h2>
 
-                      {/* აღწერა */}
                       <p className="slide-content-item text-base md:text-lg text-black md:text-white leading-relaxed mb-10 max-w-lg">
                         {slide.desc}
                       </p>
 
-                      {/* ღილაკი და დესკტოპის ისრები */}
                       <div className="slide-content-item flex flex-col md:flex-row items-center gap-6 w-full md:w-auto">
-                        <button className="profile-button bg-white text-[#f3713d] md:bg-[#fff1e6] md:text-[#2d1b4d] xl:w-full md:w-auto py-2 px-5 md:px-8 md:py-4 rounded-full flex items-center justify-center gap-6 font-bold text-base md:text-lg shadow-lg">
+                        <button 
+                          onClick={() => navigate('/login')} // ფუნქციის გამოძახება
+                          className="profile-button bg-white text-[#f3713d] md:bg-[#fff1e6] md:text-[#2d1b4d] xl:w-full md:w-auto py-2 px-5 md:px-8 md:py-4 rounded-full flex items-center justify-center gap-6 font-bold text-base md:text-lg shadow-lg cursor-pointer"
+                        >
                           პროფილში შესვლა
                           <div className="bg-[#f3713d] text-white p-2 rounded-full">
                             <ArrowRight size={20} />
                           </div>
                         </button>
 
-                        {/* ისრები დესკტოპისთვის (მობილურზე დამალულია, რადგან ზემოთ ავიტანეთ) */}
                         <div className="hidden md:flex gap-3 items-center">
-                          <button className="custom-prev w-12 h-12 md:w-14 md:h-14 bg-white/20 md:bg-white/10 border border-white/30 rounded-full flex items-center justify-center">
+                          <button className="custom-prev w-12 h-12 md:w-14 md:h-14 bg-white/20 md:bg-white/10 border border-white/30 rounded-full flex items-center justify-center cursor-pointer">
                             <ArrowLeft size={20} />
                           </button>
-                          <button className="custom-next w-12 h-12 md:w-14 md:h-14 bg-white/20 md:bg-white/10 border border-white/30 rounded-full flex items-center justify-center">
+                          <button className="custom-next w-12 h-12 md:w-14 md:h-14 bg-white/20 md:bg-white/10 border border-white/30 rounded-full flex items-center justify-center cursor-pointer">
                             <ArrowRight size={20} />
                           </button>
                         </div>

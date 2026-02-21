@@ -1,27 +1,36 @@
 import React, { useState, useEffect } from 'react';
 import { Search, ArrowUpRight, Loader2, SearchX } from 'lucide-react';
-import SpeakerModal from '../components/SpeakerModal'; // შემოვიტანოთ მოდალი
+import SpeakerModal from '../components/SpeakerModal';
 
 const SpeakersPage = () => {
     const [speakers, setSpeakers] = useState([]);
+    const [professionsList, setProfessionsList] = useState([]); // პროფესიების ბაზა
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
     const [activeFilter, setActiveFilter] = useState('all');
-    const [selectedSpeakerId, setSelectedSpeakerId] = useState(null); // სტეიტი მოდალისთვის
+    const [selectedSpeakerId, setSelectedSpeakerId] = useState(null);
 
     useEffect(() => {
-        const fetchSpeakers = async () => {
+        const fetchData = async () => {
             try {
-                const response = await fetch('https://rost.ge/api/speakers');
-                const result = await response.json();
-                setSpeakers(result.data || result);
+                // 1. მოგვაქვს პროფესიები, რომ ვიცოდეთ რომელია "უმაღლესი" და რომელი "პროფესიული"
+                const profRes = await fetch('https://rost.ge/api/professions');
+                const profData = await profRes.json();
+                const professionsBase = profData.data || profData;
+                setProfessionsList(professionsBase);
+
+                // 2. მოგვაქვს სპიკერები
+                const speakerRes = await fetch('https://rost.ge/api/speakers');
+                const speakerData = await speakerRes.json();
+                setSpeakers(speakerData.data || speakerData);
+
             } catch (error) {
-                console.error("Error fetching speakers:", error);
+                console.error("Fetch error:", error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchSpeakers();
+        fetchData();
     }, []);
 
     const filteredSpeakers = speakers.filter(speaker => {
@@ -29,12 +38,23 @@ const SpeakersPage = () => {
         if (activeFilter === 'all') return matchesSearch;
 
         const professions = speaker.professions || [];
-        const hasHigher = professions.some(p => p.name.toLowerCase().includes('უმაღლეს'));
-        const hasVocational = professions.some(p => p.name.toLowerCase().includes('პროფესიულ'));
 
-        if (activeFilter === 'higher') return matchesSearch && hasHigher;
-        if (activeFilter === 'vocational') return matchesSearch && hasVocational;
-        return matchesSearch;
+        // ამოწმებს ნებისმიერ პროფესიას, რომელიც ამ სპიკერს აქვს
+        const hasMatchingType = professions.some(p => {
+            // 1. ჯერ ვამოწმებთ პირდაპირ ტიპს (ყველაზე საიმედოა)
+            const isHigher = String(p.type) === "1" || String(p.pivot?.type) === "1";
+            const isVocational = String(p.type) === "2" || String(p.pivot?.type) === "2";
+
+            // 2. თუ ბექენდი ტიპს არ აგზავნის, ვიყენებთ სიტყვებს (რეზერვი)
+            const name = (p.name || "").toLowerCase();
+            const matchesHigherWord = ['სამართალი', 'მედიცინა', 'ტურიზმი', 'ბიზნესი', 'საერთაშორისო'].some(word => name.includes(word));
+
+            if (activeFilter === 'higher') return isHigher || matchesHigherWord;
+            if (activeFilter === 'vocational') return isVocational;
+            return false;
+        });
+
+        return matchesSearch && hasMatchingType;
     });
 
     if (loading) {
@@ -47,8 +67,6 @@ const SpeakersPage = () => {
 
     return (
         <div className="min-h-screen bg-[#fff4ec] py-10 px-4 md:px-10 lg:px-20 font-noto">
-
-            {/* აქ ჩაჯდება მოდალი */}
             <SpeakerModal
                 speakerId={selectedSpeakerId}
                 onClose={() => setSelectedSpeakerId(null)}
@@ -59,6 +77,7 @@ const SpeakersPage = () => {
                     ყველა სპიკერი
                 </h1>
 
+                {/* ფილტრები */}
                 <div className="flex flex-wrap items-center gap-3 mb-8">
                     <button
                         onClick={() => setActiveFilter('all')}
@@ -80,6 +99,7 @@ const SpeakersPage = () => {
                     </button>
                 </div>
 
+                {/* საძიებო ველი */}
                 <div className="relative max-w-8xl">
                     <div className="absolute left-6 top-1/2 -translate-y-1/2 text-[#f3713d]">
                         <Search size={22} />
@@ -94,12 +114,13 @@ const SpeakersPage = () => {
                 </div>
             </div>
 
+            {/* სპიკერების ბადე */}
             {filteredSpeakers.length > 0 ? (
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-8xl mx-auto">
                     {filteredSpeakers.map((speaker) => (
                         <div
                             key={speaker.id}
-                            onClick={() => setSelectedSpeakerId(speaker.id)} // დაჭერაზე ვაღებთ მოდალს
+                            onClick={() => setSelectedSpeakerId(speaker.id)}
                             className="bg-[#ffe4d1] rounded-[20px] p-5 flex flex-col h-full cursor-pointer transition-all duration-300 hover:shadow-2xl border-2 border-transparent hover:border-[#f3713d]/30 group/card"
                         >
                             <div className="rounded-xl overflow-hidden mb-5 shrink-0 shadow-inner bg-white/20 relative aspect-square">
@@ -115,10 +136,10 @@ const SpeakersPage = () => {
                                     {speaker.name}
                                 </h3>
                                 <p className="font-noto text-[#f3713d] font-bold text-sm mb-3 leading-tight min-h-10 line-clamp-2 uppercase italic">
-                                    {speaker.professions?.map(p => p.name).join(', ') || "პროფესიონალი მენტორი"}
+                                    {speaker.professions?.map(p => p.name).join(', ') || "მენტორი"}
                                 </p>
                                 <div
-                                    className="text-[#4a4a4a] leading-relaxed text-base md:text-lg font-medium pr-4 custom-scrollbar"
+                                    className="text-[#4a4a4a] leading-relaxed text-base md:text-lg font-medium pr-4 line-clamp-3"
                                     dangerouslySetInnerHTML={{ __html: speaker.text }}
                                 />
                             </div>
