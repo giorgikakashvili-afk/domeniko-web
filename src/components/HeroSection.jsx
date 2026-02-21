@@ -71,7 +71,7 @@ const HeroSection = () => {
         </h1>
 
         <button
-          onClick={() => navigate(isLoggedIn ? '/dashboard' : '/login')}
+          onClick={() => navigate(isLoggedIn ? '/dashboard' : '/register')}
           className={`mt-10 md:mt-18 bg-[#f3713d] hover:bg-[#d95f2d] text-white md:text-[20px] rounded-full flex items-center justify-center mx-auto font-bold shadow-sm shadow-white border transition-all duration-700 delay-500 hover:delay-0 font-noto 
             ${loaded ? 'scale-100 opacity-100' : 'scale-90 opacity-0'}
             ${showTimer ? 'px-8 py-3.25 min-w-70 md:min-w-[320px]' : 'pl-8 pr-3 py-2'}

@@ -97,7 +97,7 @@ const Header = () => {
             </div>
           ) : (
             <button
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/register')}
               className="flex w-auto xl:w-88.5 h-10 xl:h-14 bg-[#ffe4d1] rounded-full border border-[#f3713d] justify-center gap-2 items-center hover:bg-[#ffd8bc] transition-all cursor-pointer py-2 px-2 md:py-6 md:px-5 xl:py-2 xl:px-4 shrink-0"
             >
               <span className="font-black text-xs md:text-sm xl:text-xl [font-variant-caps:all-petite-caps] tracking-wide uppercase">
