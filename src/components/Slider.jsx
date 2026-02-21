@@ -12,12 +12,12 @@ import 'swiper/css/parallax';
 // აქ დააიმპორტე შენი სხვადასხვა ფოტოები
 import slbg1 from '../assets/main_img/slbg1.jpg';
 import slbg2 from '../assets/main_img/slbg2.jpg';
-import slbg3 from '../assets/main_img/slbg.jpg';
+import slbg3 from '../assets/main_img/slbg3.jpg';
 import slbg4 from '../assets/main_img/slbg4.jpg';
 
 import mBg1 from '../assets/main_img/slbg1.jpg';
 import mBg2 from '../assets/main_img/slbgMobile.png';
-import mBg3 from '../assets/main_img/slbgMobile.png';
+import mBg3 from '../assets/main_img/slbg3.jpg';
 import mBg4 from '../assets/main_img/slbg4.jpg';
 
 const Slider = () => {
